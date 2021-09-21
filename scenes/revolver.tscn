@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://models/revolverA.fbx" type="PackedScene" id=1]
+[ext_resource path="res://models/revolverB.fbx" type="PackedScene" id=2]
+[ext_resource path="res://scenes/revolver.gd" type="Script" id=3]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+width = 128
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+direction = Vector3( 0, 0, -1 )
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.0
+initial_velocity_random = 0.5
+scale_curve = SubResource( 2 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+albedo_color = Color( 0.917647, 0.905882, 0.129412, 1 )
+
+[sub_resource type="CubeMesh" id=5]
+material = SubResource( 4 )
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="Animation" id=6]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("revolverA:transform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Transform( -4.37114e-08, 1, -4.37114e-08, 1.74846e-07, -4.37114e-08, -1, -1, -4.37114e-08, -1.74846e-07, -0.027, -0.027, 0.016 ), Transform( 0, 1, 0, 1, 0, 0, 0, 0, -1, -0.027, -0.027, 0.016 ), Transform( 0, 1, 0, 0, 0, 1, 1, 0, 0, -0.027, -0.027, 0.016 ), Transform( 0, 1, 0, -1, 0, 0, 0, 0, 1, -0.027, -0.027, 0.016 ), Transform( -4.37114e-08, 1, -4.37114e-08, 3.49691e-07, -4.37114e-08, -1, -1, -4.37114e-08, -3.49691e-07, -0.027, -0.027, 0.016 ) ]
+}
+
+[node name="revolver" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="revolverA" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0, 1, -8.9407e-08, 2.08616e-07, -1.19209e-07, -1, -1, 0, -2.38419e-07, -0.027, -0.027, 0.016 )
+
+[node name="Spatial" type="Spatial" parent="revolverA"]
+transform = Transform( 1, 0, -3.69482e-13, -1.37643e-21, 1, -9.23706e-14, 0, 5.02921e-17, 1, -1.86265e-09, 0.0261812, 0.067434 )
+
+[node name="revolverB" parent="revolverA/Spatial" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.337711, -0.0521829, -0.023219 )
+
+[node name="shoot_here" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0235298, -0.635001 )
+
+[node name="Particles" type="Particles" parent="shoot_here"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.164673, 0 )
+emitting = false
+amount = 16
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 5 )
+
+[node name="RayCast" type="RayCast" parent="shoot_here"]
+enabled = true
+cast_to = Vector3( 0, 0, -300 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/reload = SubResource( 6 )
+
+[node name="cooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

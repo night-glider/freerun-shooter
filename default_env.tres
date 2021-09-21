@@ -1,0 +1,13 @@
+[gd_resource type="Environment" load_steps=2 format=2]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_sky_orientation = Basis( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107 )
+ambient_light_energy = 0.1
+ssao_enabled = true
+dof_blur_far_distance = 58.25
+dof_blur_far_quality = 0
+dof_blur_near_quality = 0

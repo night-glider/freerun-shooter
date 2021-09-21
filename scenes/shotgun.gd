@@ -1,0 +1,45 @@
+extends Spatial
+var trail = preload("res://scenes/bullet_trail.tscn")
+var max_ammo = 1
+var ammo = 1
+var can_shoot = true
+
+func shoot():
+	if can_shoot and ammo > 0:
+		ammo-=1
+		can_shoot = false
+		$shoot_here/Particles.restart()
+		$shoot_here/Particles.emitting = true
+		for i in 10:
+			$shoot_here/RayCast.rotation_degrees.x = rand_range(-5,5)
+			$shoot_here/RayCast.rotation_degrees.y = rand_range(-5,5)
+			$shoot_here/RayCast.rotation_degrees.z = rand_range(-5,5)
+			$shoot_here/RayCast.force_raycast_update()
+			var new_trail = trail.instance()
+			get_tree().get_root().add_child(new_trail)
+			new_trail.global_transform.basis = $shoot_here/RayCast.global_transform.basis
+			new_trail.global_transform.origin = $shoot_here/RayCast.global_transform.origin
+			new_trail.scale.z = $shoot_here/RayCast.get_collision_point().distance_to(global_transform.origin)
+			
+			if $shoot_here/RayCast.is_colliding():
+				var body = $shoot_here/RayCast.get_collider()
+				if body.is_in_group("can_be_hit"):
+					body.get_hit()
+		
+		translation.z += 0.5
+		rotation_degrees.x = 5
+		get_parent().get_parent().shake_camera(0.05, 10)
+		
+
+func reload():
+	$cooldown.start()
+	can_shoot = false
+	ammo = max_ammo
+	$AnimationPlayer.play("reload")
+
+func _process(delta):
+	pass
+
+
+func _on_cooldown_timeout():
+	can_shoot = true
