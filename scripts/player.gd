@@ -111,11 +111,11 @@ func _physics_process(delta):
 	
 	#прыжок от стены
 	if state == WALL_RUN and Input.is_action_just_pressed("jump"):
-		#if forward.angle_to(get_slide_collision(0).normal) > PI/2:
 		spd*=1.2
 		vel = forward * -spd
 		vel.y = 9
 		state = FALLING
+		vel+=get_slide_collision(0).normal * 20
 	
 	#анимация бега по стенам
 	if state == WALL_RUN:
@@ -164,6 +164,7 @@ func _process(delta):
 	shake_intensity = clamp(shake_intensity-shake_diff, 0, 1)
 	
 	sync_stats()
+	mouse_sensitivity = $mouse_sens.value
 	
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -181,8 +182,7 @@ func _process(delta):
 		current_weapon.transform = $Camera/grab_position.transform
 		current_weapon.visible = true
 	
-	if Input.is_action_just_pressed("reload"):
-		#restart()
+	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
 		current_weapon.reload()
 	
 	if Input.is_action_pressed("RMB"):

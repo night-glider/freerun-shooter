@@ -1,34 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/revolver.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
-
-[sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0824176, 1 ), -0.00835628, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=3]
-width = 64
-curve = SubResource( 2 )
-
-[sub_resource type="ParticlesMaterial" id=4]
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = true
-direction = Vector3( 0, 0, 1 )
-spread = 1.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 4.0
-scale_curve = SubResource( 3 )
-
-[sub_resource type="SpatialMaterial" id=5]
-flags_unshaded = true
-
-[sub_resource type="CubeMesh" id=6]
-material = SubResource( 5 )
-size = Vector3( 0.01, 0.5, 0.01 )
 
 [node name="player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -65,13 +41,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.387342, -0.217273, -0.510463
 [node name="shotgun" parent="Camera" instance=ExtResource( 3 )]
 visible = false
 
-[node name="Particles" type="Particles" parent="Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.93418 )
-visible = false
-amount = 16
-process_material = SubResource( 4 )
-draw_pass_1 = SubResource( 6 )
-
 [node name="RayCast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 enabled = true
@@ -89,6 +58,58 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_sens" type="HSlider" parent="."]
+margin_left = 81.1732
+margin_right = 255.173
+margin_bottom = 16.0
+min_value = 0.05
+max_value = 0.5
+step = 0.05
+value = 0.1
+tick_count = 10
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sensitivity" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "sensitivity"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="controls" type="Label" parent="."]
+margin_top = 35.0
+margin_right = 159.0
+margin_bottom = 235.0
+text = "LMB to shoot
+RMB to zoom in
+SPACE to jump/walljump/doublejump
+R to reload
+1 - revolver
+2 - shotgun
+ESC - cursor
+F11 - fullscreen"
 __meta__ = {
 "_edit_use_anchors_": false
 }
