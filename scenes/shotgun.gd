@@ -2,6 +2,7 @@ extends Spatial
 var trail = preload("res://scenes/bullet_trail.tscn")
 var max_ammo = 1
 var ammo = 1
+var damage = 10
 var can_shoot = true
 
 func shoot():
@@ -19,17 +20,22 @@ func shoot():
 			get_tree().get_root().add_child(new_trail)
 			new_trail.global_transform.basis = $shoot_here/RayCast.global_transform.basis
 			new_trail.global_transform.origin = $shoot_here/RayCast.global_transform.origin
-			new_trail.scale.z = $shoot_here/RayCast.get_collision_point().distance_to(global_transform.origin)
+			if $shoot_here/RayCast.is_colliding():
+				new_trail.scale.z = $shoot_here/RayCast.get_collision_point().distance_to(global_transform.origin)
+				get_parent().get_parent().get_parent().create_trail($shoot_here/RayCast.get_collision_point())
+			else:
+				new_trail.scale.z = $shoot_here/RayCast.cast_to.length()
+				get_parent().get_parent().get_parent().create_trail($shoot_here/RayCast.global_transform.origin + $shoot_here/RayCast.global_transform.basis.z * -300)
 			
 			if $shoot_here/RayCast.is_colliding():
 				var body = $shoot_here/RayCast.get_collider()
 				if body.is_in_group("can_be_hit"):
-					body.get_hit()
+					get_parent().get_parent().hit_marker()
+					body.get_hit(damage)
 		
 		translation.z += 0.5
 		rotation_degrees.x = 5
 		get_parent().get_parent().shake_camera(0.05, 10)
-		
 
 func reload():
 	$cooldown.start()

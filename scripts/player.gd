@@ -98,14 +98,14 @@ func _physics_process(delta):
 	
 	#двойной прыжок
 	if state == FALLING and can_doublejump==1 and Input.is_action_just_pressed("jump"):
-		vel.y = 9
+		vel.y = 12
 		spd*=1.2
 		can_doublejump = 0
 		shake_camera(0.02, 20)
 	
 	#толкание в стену
-	if state == WALL_RUN:
-		pass
+	#if state == WALL_RUN:
+		#pass
 		#vel += get_slide_collision(0).normal * -(2)
 		#move_and_slide(get_slide_collision(0).normal * -(vel.length()), Vector3(0,1,0))
 	
@@ -164,6 +164,7 @@ func _process(delta):
 	shake_intensity = clamp(shake_intensity-shake_diff, 0, 1)
 	
 	sync_stats()
+	$crosshair/Control/hit_marker.modulate.a-=0.1
 	mouse_sensitivity = $mouse_sens.value
 	
 	if Input.is_action_just_pressed("fullscreen"):
@@ -182,6 +183,12 @@ func _process(delta):
 		current_weapon.transform = $Camera/grab_position.transform
 		current_weapon.visible = true
 	
+	if Input.is_action_just_pressed("grab_rifle"):
+		current_weapon.visible = false
+		current_weapon = $Camera/rifle
+		current_weapon.transform = $Camera/grab_position.transform
+		current_weapon.visible = true
+	
 	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
 		current_weapon.reload()
 	
@@ -190,7 +197,7 @@ func _process(delta):
 	else:
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
 	
-	if Input.is_action_just_pressed("LMB"):
+	if Input.is_action_pressed("LMB"):
 		current_weapon.shoot()
 	
 	if Input.is_action_just_pressed("mouse_mode"):
@@ -217,14 +224,17 @@ func _input(event):
 
 func restart():
 	hp = 100
-	translation.x = rand_range(0,250)
-	translation.z = rand_range(0,150)
+	translation.x = rand_range(-100,100)
+	translation.z = 0
 	translation.y = 50
 	vel = Vector3(0,0,0)
 
 func shake_camera(intensity, time):
 	shake_intensity+=intensity
 	shake_diff = shake_intensity/time
+
+func hit_marker():
+	$crosshair/Control/hit_marker.modulate.a = 1.5
 
 func sync_stats():
 	$stats/RichTextLabel.text = "\nstate " + String(state)
@@ -235,3 +245,13 @@ func sync_stats():
 	$stats/RichTextLabel.text += "\nvelocity " + String(vel.length())
 	$stats/RichTextLabel.text += "\nspd " + String(spd)
 	
+
+
+func _on_connect_pressed():
+	$multiplayer.queue_free()
+	get_parent().server_connect($multiplayer/ip.text)
+
+
+func _on_create_pressed():
+	$multiplayer.queue_free()
+	get_parent().server_create()

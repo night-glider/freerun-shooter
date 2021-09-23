@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://models/shotgun.escn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/shotgun.gd" type="Script" id=2]
+[ext_resource path="res://models/rifle.fbx" type="PackedScene" id=1]
+[ext_resource path="res://scenes/rifle.gd" type="Script" id=3]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
@@ -26,33 +26,30 @@ material = SubResource( 4 )
 size = Vector3( 0.1, 0.1, 0.1 )
 
 [sub_resource type="Animation" id=6]
-length = 0.4
+length = 2.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("shotgun:transform")
+tracks/0/path = NodePath("rifle:transform")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Transform( -1.74846e-08, 0, 0.7, 0, 0.7, 0, -0.4, 0, -3.0598e-08, 0, -0.131168, 0.181814 ), Transform( -1.74846e-08, 0, 0.7, 0.4, -3.0598e-08, 3.0598e-08, 1.74846e-08, 0.7, 1.33748e-15, 0, -0.131168, 0.181814 ), Transform( -1.74846e-08, 0, 0.7, -3.49691e-08, -0.7, -2.67496e-15, 0.4, -6.11959e-08, 3.0598e-08, 0, -0.131168, 0.181814 ), Transform( -1.74846e-08, 0, 0.7, -0.4, 9.17939e-08, -3.0598e-08, -5.24537e-08, -0.7, -4.01244e-15, 0, -0.131168, 0.181814 ), Transform( -1.74846e-08, 0, 0.7, 6.99382e-08, 0.7, 5.34992e-15, -0.4, 1.22392e-07, -3.0598e-08, 0, -0.131168, 0.181814 ) ]
+"values": [ Transform( -2.18557e-08, 0, -0.6, 0, 0.6, 0, 0.5, 0, -2.62268e-08, 0, -0.527466, -0.107126 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527466, -0.107126 ) ]
 }
 
-[node name="shotgun" type="Spatial"]
-script = ExtResource( 2 )
-
-[node name="shotgun" parent="." instance=ExtResource( 1 )]
-transform = Transform( -1.74846e-08, 0, 0.7, 6.99382e-08, 0.7, 5.34992e-15, -0.4, 1.22392e-07, -3.0598e-08, 0, -0.131168, 0.181814 )
+[node name="rifle" type="Spatial"]
+script = ExtResource( 3 )
 
 [node name="shoot_here" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.055779, -0.797599 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0535382, -2.90044 )
 
 [node name="Particles" type="Particles" parent="shoot_here"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00716035, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0693735, 1.56954 )
 emitting = false
-amount = 32
+amount = 16
 lifetime = 0.3
 one_shot = true
 explosiveness = 1.0
@@ -68,6 +65,9 @@ collide_with_areas = true
 anims/reload = SubResource( 6 )
 
 [node name="cooldown" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.1
+
+[node name="rifle" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527466, -0.107126 )
 
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/shotgunA.fbx-6ff299f954d74d84f63233cb4d9b8438.scn"
+path="res://.import/rifle.fbx-2f73ee71328a4937bb9320df3fabd233.scn"
 
 [deps]
 
-source_file="res://models/shotgunA.fbx"
-dest_files=[ "res://.import/shotgunA.fbx-6ff299f954d74d84f63233cb4d9b8438.scn" ]
+source_file="res://models/rifle.fbx"
+dest_files=[ "res://.import/rifle.fbx-2f73ee71328a4937bb9320df3fabd233.scn" ]
 
 [params]
 
