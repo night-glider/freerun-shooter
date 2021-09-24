@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/revolver.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/shotgun.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/rifle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://textures/hit_marker.png" type="Texture" id=5]
+[ext_resource path="res://textures/progress.png" type="Texture" id=6]
+[ext_resource path="res://textures/damage_indicator.png" type="Texture" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -52,22 +54,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 enabled = true
 cast_to = Vector3( 0, -0.2, 0 )
 
-[node name="stats" type="Control" parent="."]
-anchor_top = 0.5
-anchor_right = 0.3
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RichTextLabel" type="RichTextLabel" parent="stats"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="crosshair" type="ColorRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -91,49 +77,10 @@ anchor_bottom = 0.5
 [node name="hit_marker" type="Sprite" parent="crosshair/Control"]
 texture = ExtResource( 5 )
 
-[node name="mouse_sens" type="HSlider" parent="."]
-margin_left = 81.1732
-margin_right = 255.173
-margin_bottom = 16.0
-min_value = 0.05
-max_value = 0.5
-step = 0.05
-value = 0.1
-tick_count = 10
-ticks_on_borders = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="sensitivity" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "sensitivity"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="controls" type="Label" parent="."]
-margin_top = 35.0
-margin_right = 159.0
-margin_bottom = 235.0
-text = "LMB to shoot
-RMB to zoom in
-SPACE to jump/walljump/doublejump
-R to reload
-1 - revolver
-2 - shotgun
-3 - rifle
-ESC - cursor
-F11 - fullscreen"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="multiplayer" type="Control" parent="."]
-margin_top = 203.0
+margin_top = 315.454
 margin_right = 143.0
-margin_bottom = 310.0
+margin_bottom = 422.454
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -145,18 +92,158 @@ text = "127.0.0.1"
 
 [node name="connect" type="Button" parent="multiplayer"]
 anchor_right = 1.0
-margin_top = 26.9858
-margin_bottom = 46.9858
+margin_top = 33.713
+margin_bottom = 58.713
 text = "connect"
 
 [node name="create" type="Button" parent="multiplayer"]
 anchor_right = 1.0
-margin_top = 52.3842
-margin_bottom = 72.3842
+margin_top = 65.8385
+margin_bottom = 90.8385
 text = "create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="debug_info" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stats" type="RichTextLabel" parent="debug_info"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 400.326
+margin_bottom = 352.326
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_sens" type="HSlider" parent="debug_info"]
+margin_left = 142.173
+margin_right = 316.173
+margin_bottom = 16.0
+min_value = 0.05
+max_value = 0.5
+step = 0.025
+value = 0.1
+tick_count = 20
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sensitivity" type="Label" parent="debug_info"]
+margin_right = 66.0
+margin_bottom = 14.0
+text = "чувствительность
+мыши"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="controls" type="Label" parent="debug_info"]
+margin_top = 35.0
+margin_right = 238.0
+margin_bottom = 235.0
+text = "H - вкл/выкл доп. информацию
+LMB - стрелять
+RMB - целиться
+SPACE - прыжок
+R - перезарядка
+W - бег по стене
+1 - револьвер
+2 - дробовик
+3 - автомат
+ESC - показать курсок
+F11 - полный экран
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="reset_score" type="Button" parent="debug_info"]
+margin_top = 280.307
+margin_right = 104.0
+margin_bottom = 305.307
+text = "Сброс очков"
+
+[node name="GUI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score" type="Label" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -28.5
+margin_top = 32.0917
+margin_right = 28.5
+margin_bottom = 51.0917
+grow_horizontal = 2
+text = "ОЧКИ:0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="doublejump_progress" type="TextureProgress" parent="GUI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 1.0
+step = 0.01
+value = 1.0
+texture_progress = ExtResource( 6 )
+fill_mode = 6
+tint_progress = Color( 0, 0.929412, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="TextureProgress" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+value = 100.0
+texture_progress = ExtResource( 6 )
+fill_mode = 6
+tint_progress = Color( 0.823529, 0.133333, 0.133333, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="damage_indicator" type="TextureRect" parent="GUI"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 7 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score_indicator" type="ColorRect" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.47451, 0.580392, 1, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [connection signal="pressed" from="multiplayer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="multiplayer/create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]

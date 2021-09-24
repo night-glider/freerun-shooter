@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/enemy.gd" type="Script" id=1]
 
@@ -11,6 +11,14 @@ albedo_color = Color( 1, 0.584314, 0, 1 )
 
 [sub_resource type="CapsuleMesh" id=3]
 material = SubResource( 2 )
+radial_segments = 16
+rings = 4
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 1, 0.5, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
 
 [node name="enemy" type="Area" groups=[
 "can_be_hit",
@@ -28,3 +36,8 @@ material/0 = null
 
 [node name="shoot_pos" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -0.59777 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )

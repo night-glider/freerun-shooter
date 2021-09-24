@@ -11,7 +11,7 @@ var mouse_sensitivity = 0.1 #чувствительность мыши
 var vel = Vector3(0,0,0) #вектор движения
 var mouse_delta = Vector2() #хранит в себе перемещение мышки
 var hp = 100 #хп игрока
-var hits = 0 #попадания
+var score = 0 #очки
 var can_doublejump = 1 #заполняется постепенно до 1
 var doublejump_spd = 0.01
 
@@ -165,7 +165,9 @@ func _process(delta):
 	
 	sync_stats()
 	$crosshair/Control/hit_marker.modulate.a-=0.1
-	mouse_sensitivity = $mouse_sens.value
+	$GUI/damage_indicator.modulate.a = lerp($GUI/damage_indicator.modulate.a, 0, 0.05)
+	$GUI/score_indicator.color.a = lerp($GUI/score_indicator.color.a, 0, 0.1)
+	mouse_sensitivity = $debug_info/mouse_sens.value
 	
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -200,6 +202,9 @@ func _process(delta):
 	if Input.is_action_pressed("LMB"):
 		current_weapon.shoot()
 	
+	if Input.is_action_just_pressed("debug"):
+		$debug_info.visible = not $debug_info.visible
+	
 	if Input.is_action_just_pressed("mouse_mode"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -228,22 +233,36 @@ func restart():
 	translation.z = 0
 	translation.y = 50
 	vel = Vector3(0,0,0)
+	get_parent().pass_score()
 
 func shake_camera(intensity, time):
 	shake_intensity+=intensity
 	shake_diff = shake_intensity/time
 
+func take_hit(damage):
+	hp-=damage
+	$GUI/damage_indicator.modulate.a += 0.7
+
+func get_score():
+	score+=1
+	hp+=50
+	$GUI/score_indicator.color.a = 0.25
+
 func hit_marker():
 	$crosshair/Control/hit_marker.modulate.a = 1.5
 
 func sync_stats():
-	$stats/RichTextLabel.text = "\nstate " + String(state)
-	$stats/RichTextLabel.text += "\nHP " + String(hp)
-	$stats/RichTextLabel.text += "\nHits " + String(hits)
-	$stats/RichTextLabel.text += "\nammo " + String(current_weapon.ammo)
-	$stats/RichTextLabel.text += "\nDoubleJump " + String(can_doublejump)
-	$stats/RichTextLabel.text += "\nvelocity " + String(vel.length())
-	$stats/RichTextLabel.text += "\nspd " + String(spd)
+	$debug_info/stats.text = "\nсостояние " + String(state)
+	$debug_info/stats.text += "\nHP " + String(hp)
+	$debug_info/stats.text += "\nочки " + String(score)
+	$debug_info/stats.text += "\nпатроны " + String(current_weapon.ammo)
+	$debug_info/stats.text += "\nдвойной прыжок " + String(can_doublejump)
+	$debug_info/stats.text += "\nвектор движения " + String(vel.length())
+	$debug_info/stats.text += "\nскорость " + String(spd)
+	
+	$GUI/doublejump_progress.value = can_doublejump
+	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)
+	$GUI/score.text = "ОЧКИ:" + str(score)
 	
 
 
@@ -255,3 +274,7 @@ func _on_connect_pressed():
 func _on_create_pressed():
 	$multiplayer.queue_free()
 	get_parent().server_create()
+
+
+func _on_reset_score_pressed():
+	score = 0

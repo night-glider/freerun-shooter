@@ -4,6 +4,7 @@
 
 [resource]
 flags_world_triplanar = true
+albedo_color = Color( 0.72549, 0.866667, 1, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true

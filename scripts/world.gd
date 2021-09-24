@@ -10,7 +10,7 @@ remote func _set_pos(trans:Transform):
 	$enemy.set_pos(trans)
 
 remote func _take_hit(damage:int):
-	$player.hp-=damage
+	$player.take_hit(damage)
 	
 remote func _trail(end_point : Vector3):
 	var new_gun_trail = trail.instance()
@@ -20,12 +20,18 @@ remote func _trail(end_point : Vector3):
 	new_gun_trail.scale.z = new_gun_trail.global_transform.origin.distance_to(end_point)
 	new_gun_trail.get_node("MeshInstance").get_surface_material(0).albedo_color = Color.red
 
+remote func _score():
+	$player.get_score()
 
 func damage(damage:int):
 	rpc("_take_hit", damage)
 
 func create_trail(end_point : Vector3):
 	rpc_unreliable("_trail", end_point)
+	
+
+func pass_score():
+	rpc("_score")
 
 func server_create():
 	var peer = NetworkedMultiplayerENet.new()
@@ -52,4 +58,4 @@ func _player_connected(id):
 	network_active = true
 
 func _player_disconnected(id):
-	pass
+	OS.alert("disconected")
