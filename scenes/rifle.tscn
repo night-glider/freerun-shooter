@@ -37,7 +37,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3, 1.6, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Transform( -2.18557e-08, 0, -0.6, 0, 0.6, 0, 0.5, 0, -2.62268e-08, 0, -0.527466, -0.107126 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527466, -0.107126 ) ]
+"values": [ Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527, -0.107 ), Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527, -0.107 ) ]
 }
 
 [node name="rifle" type="Spatial"]
@@ -68,6 +68,6 @@ anims/reload = SubResource( 6 )
 wait_time = 0.1
 
 [node name="rifle" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0, 0, -0.6, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527466, -0.107126 )
+transform = Transform( -2.18557e-08, 0, -1, 0, 0.6, 0, 0.5, 0, -4.37114e-08, 0, -0.527466, -0.107126 )
 
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

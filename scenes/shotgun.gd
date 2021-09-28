@@ -43,6 +43,12 @@ func reload():
 	ammo = max_ammo
 	$AnimationPlayer.play("reload")
 
+func zoom():
+	pass
+
+func unzoom():
+	pass
+
 func _process(delta):
 	pass
 

@@ -37,6 +37,12 @@ func shoot():
 				body.get_hit(damage)
 		
 
+func zoom():
+	pass
+
+func unzoom():
+	pass
+
 func reload():
 	baraban_spd = 10
 	ammo = max_ammo
@@ -45,9 +51,6 @@ func reload():
 func _process(delta):
 	$revolverA/Spatial.rotation_degrees.x+=baraban_spd
 	baraban_spd = lerp(baraban_spd, 0, 0.015)
-	
-	#if Input.is_action_just_released("MMB"):
-	#	$revolverA/Spatial.spd += 10
 
 
 func _on_cooldown_timeout():

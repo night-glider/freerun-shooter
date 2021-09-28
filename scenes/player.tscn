@@ -24,9 +24,6 @@ fov = 80.0
 near = 0.01
 far = 1000.0
 
-[node name="crosshair" type="Spatial" parent="Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.38438 )
-
 [node name="default_position" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.387342, -0.217273, -0.510463 )
 
@@ -75,6 +72,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 
 [node name="hit_marker" type="Sprite" parent="crosshair/Control"]
+scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
 [node name="multiplayer" type="Control" parent="."]
@@ -183,7 +181,6 @@ __meta__ = {
 [node name="score" type="Label" parent="GUI"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -28.5
 margin_top = 32.0917
 margin_right = 28.5
 margin_bottom = 51.0917
@@ -191,6 +188,32 @@ grow_horizontal = 2
 text = "ОЧКИ:0"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="enemy_score" type="Label" parent="GUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+text = "ОЧКИ ОППОНЕНТА:0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ammo" type="Label" parent="GUI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "ПАТРОНЫ: 30/30"
+align = 2
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -204,9 +227,11 @@ grow_horizontal = 2
 grow_vertical = 0
 max_value = 1.0
 step = 0.01
-value = 1.0
+value = 0.5
+texture_under = ExtResource( 6 )
 texture_progress = ExtResource( 6 )
 fill_mode = 6
+tint_under = Color( 0.21, 0.406, 0.42, 1 )
 tint_progress = Color( 0, 0.929412, 1, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -217,8 +242,10 @@ anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
 value = 100.0
+texture_under = ExtResource( 6 )
 texture_progress = ExtResource( 6 )
 fill_mode = 6
+tint_under = Color( 0.42, 0.21, 0.21, 1 )
 tint_progress = Color( 0.823529, 0.133333, 0.133333, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

@@ -5,11 +5,13 @@ var damage = 15
 var ammo = max_ammo
 var can_shoot = true
 
+var spread = 1
+
 func shoot():
 	if can_shoot and ammo > 0 and not $AnimationPlayer.is_playing():
-		$shoot_here/RayCast.rotation_degrees.x = rand_range(-1,1)
-		$shoot_here/RayCast.rotation_degrees.y = rand_range(-1,1)
-		$shoot_here/RayCast.rotation_degrees.z = rand_range(-1,1)
+		$shoot_here/RayCast.rotation_degrees.x = rand_range(-spread,spread)
+		$shoot_here/RayCast.rotation_degrees.y = rand_range(-spread,spread)
+		$shoot_here/RayCast.rotation_degrees.z = rand_range(-spread,spread)
 		
 		ammo-=1
 		can_shoot = false
@@ -17,7 +19,6 @@ func shoot():
 		$shoot_here/Particles.restart()
 		$shoot_here/Particles.emitting = true
 		var new_trail = trail.instance()
-		new_trail.scale.z = 10
 		get_tree().get_root().add_child(new_trail)
 		new_trail.global_transform.basis = $shoot_here/RayCast.global_transform.basis
 		new_trail.global_transform.origin = $shoot_here/RayCast.global_transform.origin
@@ -38,7 +39,12 @@ func shoot():
 			if body.is_in_group("can_be_hit"):
 				get_parent().get_parent().hit_marker()
 				body.get_hit(damage)
-		
+
+func zoom():
+	spread = 0
+
+func unzoom():
+	spread = 1
 
 func reload():
 	ammo = max_ammo

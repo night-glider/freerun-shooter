@@ -12,6 +12,7 @@ var vel = Vector3(0,0,0) #вектор движения
 var mouse_delta = Vector2() #хранит в себе перемещение мышки
 var hp = 100 #хп игрока
 var score = 0 #очки
+var enemy_score = 0 #очки оппонента
 var can_doublejump = 1 #заполняется постепенно до 1
 var doublejump_spd = 0.01
 
@@ -58,13 +59,11 @@ func _physics_process(delta):
 	if state == FALLING:
 		vel.y -= 20 * delta
 	
-	
 	if state == WALL_RUN:
 		if vel.y < 0:
 			vel.y = -1 * delta
 		else:
 			vel.y -= 7 * delta
-	
 	
 	
 	#управление
@@ -99,7 +98,8 @@ func _physics_process(delta):
 	#двойной прыжок
 	if state == FALLING and can_doublejump==1 and Input.is_action_just_pressed("jump"):
 		vel.y = 12
-		spd*=1.2
+		#spd*=1.2
+		spd += 4
 		can_doublejump = 0
 		shake_camera(0.02, 20)
 	
@@ -111,7 +111,8 @@ func _physics_process(delta):
 	
 	#прыжок от стены
 	if state == WALL_RUN and Input.is_action_just_pressed("jump"):
-		spd*=1.2
+		#spd*=1.2
+		spd += 4
 		vel = forward * -spd
 		vel.y = 9
 		state = FALLING
@@ -177,7 +178,6 @@ func _process(delta):
 		current_weapon = $Camera/revolver
 		current_weapon.transform = $Camera/grab_position.transform
 		current_weapon.visible = true
-		
 	
 	if Input.is_action_just_pressed("grab_shotgun"):
 		current_weapon.visible = false
@@ -196,8 +196,10 @@ func _process(delta):
 	
 	if Input.is_action_pressed("RMB"):
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
+		current_weapon.zoom()
 	else:
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
+		current_weapon.unzoom()
 	
 	if Input.is_action_pressed("LMB"):
 		current_weapon.shoot()
@@ -228,6 +230,7 @@ func _input(event):
 		mouse_delta = event.relative
 
 func restart():
+	enemy_score += 1
 	hp = 100
 	translation.x = rand_range(-100,100)
 	translation.z = 0
@@ -245,7 +248,7 @@ func take_hit(damage):
 
 func get_score():
 	score+=1
-	hp+=50
+	hp = clamp(hp+50, 0, 100)
 	$GUI/score_indicator.color.a = 0.25
 
 func hit_marker():
@@ -263,6 +266,8 @@ func sync_stats():
 	$GUI/doublejump_progress.value = can_doublejump
 	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)
 	$GUI/score.text = "ОЧКИ:" + str(score)
+	$GUI/enemy_score.text = "ОЧКИ ОППОНЕНТА:" + str(enemy_score)
+	$GUI/ammo.text = "ПАТРОНЫ:" + str(current_weapon.ammo) + "/" + str(current_weapon.max_ammo)
 	
 
 
@@ -278,3 +283,4 @@ func _on_create_pressed():
 
 func _on_reset_score_pressed():
 	score = 0
+	enemy_score = 0
