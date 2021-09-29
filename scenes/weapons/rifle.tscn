@@ -1,0 +1,73 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://models/rifle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/weapons/scripts/rifle.gd" type="Script" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+width = 128
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+direction = Vector3( 0, 0, -1 )
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.0
+initial_velocity_random = 0.5
+scale_curve = SubResource( 2 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+albedo_color = Color( 0.917647, 0.905882, 0.129412, 1 )
+
+[sub_resource type="CubeMesh" id=5]
+material = SubResource( 4 )
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="Animation" id=6]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("rifle:transform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Transform( -2.18557e-08, 0, -1, 0, 0.6, 0, 0.5, 0, -4.37114e-08, 0, -0.527466, -0.107126 ), Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -1, -0.107 ), Transform( -2.18557e-08, 0, -1, 0, 0.6, 0, 0.5, 0, -4.37114e-08, 0, -0.527466, -0.107126 ) ]
+}
+
+[node name="rifle" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="shoot_here" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0535382, -2.90044 )
+
+[node name="Particles" type="Particles" parent="shoot_here"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0693735, 1.56954 )
+emitting = false
+amount = 16
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 5 )
+
+[node name="RayCast" type="RayCast" parent="shoot_here"]
+enabled = true
+cast_to = Vector3( 0, 0, -300 )
+collide_with_areas = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/reload = SubResource( 6 )
+
+[node name="cooldown" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="rifle" parent="." instance=ExtResource( 1 )]
+transform = Transform( -2.18557e-08, 0, -1, 0, 0.6, 0, 0.5, 0, -4.37114e-08, 0, -0.527466, -0.107126 )
+
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

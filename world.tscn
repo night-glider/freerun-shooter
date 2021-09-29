@@ -2,9 +2,9 @@
 
 [ext_resource path="res://materials/test_texture.tres" type="Material" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/world.gd" type="Script" id=3]
+[ext_resource path="res://world.gd" type="Script" id=3]
 [ext_resource path="res://scenes/jump_pad.tscn" type="PackedScene" id=4]
-[ext_resource path="res://models/map.obj" type="ArrayMesh" id=6]
+[ext_resource path="res://models/import/map.obj" type="ArrayMesh" id=6]
 [ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ConcavePolygonShape" id=1]
