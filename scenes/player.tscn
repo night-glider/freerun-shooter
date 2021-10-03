@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/weapons/revolver.tscn" type="PackedScene" id=2]
@@ -7,8 +7,14 @@
 [ext_resource path="res://textures/hit_marker.png" type="Texture" id=5]
 [ext_resource path="res://textures/progress.png" type="Texture" id=6]
 [ext_resource path="res://textures/damage_indicator.png" type="Texture" id=7]
+[ext_resource path="res://default_font.ttf" type="DynamicFontData" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+use_filter = true
+font_data = ExtResource( 8 )
 
 [node name="player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -181,9 +187,8 @@ __meta__ = {
 [node name="score" type="Label" parent="GUI"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_top = 32.0917
-margin_right = 28.5
-margin_bottom = 51.0917
+margin_top = 26.6516
+margin_bottom = 46.6516
 grow_horizontal = 2
 text = "ОЧКИ:0"
 align = 1
@@ -196,7 +201,7 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 grow_horizontal = 0
-text = "ОЧКИ ОППОНЕНТА:0"
+text = "ОЧКИ ОППОНЕНТА:андрей иди нафиг"
 align = 1
 valign = 1
 __meta__ = {
@@ -211,7 +216,8 @@ anchor_bottom = 1.0
 margin_top = -19.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "ПАТРОНЫ: 30/30"
+custom_fonts/font = SubResource( 2 )
+text = "30/30"
 align = 2
 valign = 2
 __meta__ = {
@@ -250,6 +256,15 @@ tint_progress = Color( 0.823529, 0.133333, 0.133333, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="hp_label" type="Label" parent="GUI/HP"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100"
+align = 1
 
 [node name="damage_indicator" type="TextureRect" parent="GUI"]
 modulate = Color( 1, 1, 1, 0 )

@@ -51,7 +51,7 @@ func _physics_process(delta):
 		state = WALL_RUN
 	
 	
-	if is_on_floor:
+	if is_on_floor: 
 		spd = lerp(spd, start_spd, 0.1)
 		vel.x = 0
 		vel.z = 0
@@ -142,7 +142,7 @@ func _physics_process(delta):
 	else:
 		current_weapon.rotation_degrees.z = lerp(current_weapon.rotation_degrees.z, $Camera/default_position.rotation_degrees.z, 0.1)
 	
-	var test = move_and_slide(vel, Vector3(0,1,0))
+	var test = move_and_slide(vel, Vector3.UP, true)
 	if state == WALL_RUN:
 		spd = clamp(test.length(), start_spd, 999)
 	
@@ -232,11 +232,17 @@ func _input(event):
 func restart():
 	enemy_score += 1
 	hp = 100
-	translation.x = rand_range(-100,100)
-	translation.z = 0
-	translation.y = 50
 	vel = Vector3(0,0,0)
 	get_parent().pass_score()
+	current_weapon.ammo = current_weapon.max_ammo
+	
+	var far_spawnpoint = get_parent().get_node("spawnpoints/spawnpoint1")
+	for element in get_parent().get_node("spawnpoints").get_children():
+		if element.global_transform.origin.distance_to(get_parent().get_node("enemy").global_transform.origin) > far_spawnpoint.global_transform.origin.distance_to(get_parent().get_node("enemy").global_transform.origin):
+			far_spawnpoint = element
+	
+	global_transform.origin = far_spawnpoint.global_transform.origin
+	
 
 func shake_camera(intensity, time):
 	shake_intensity+=intensity
@@ -267,7 +273,8 @@ func sync_stats():
 	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)
 	$GUI/score.text = "ОЧКИ:" + str(score)
 	$GUI/enemy_score.text = "ОЧКИ ОППОНЕНТА:" + str(enemy_score)
-	$GUI/ammo.text = "ПАТРОНЫ:" + str(current_weapon.ammo) + "/" + str(current_weapon.max_ammo)
+	$GUI/ammo.text = str(current_weapon.ammo) + "/" + str(current_weapon.max_ammo)
+	$GUI/HP/hp_label.text = str(hp)
 	
 
 
