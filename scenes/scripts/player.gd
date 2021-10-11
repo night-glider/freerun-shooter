@@ -271,9 +271,10 @@ func sync_stats():
 	
 	$GUI/doublejump_progress.value = can_doublejump
 	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)
-	$GUI/score.text = "ОЧКИ:" + str(score)
-	$GUI/enemy_score.text = "ОЧКИ ОППОНЕНТА:" + str(enemy_score)
-	$GUI/ammo.text = str(current_weapon.ammo) + "/" + str(current_weapon.max_ammo)
+	$GUI/HP2.value = $GUI/HP.value
+	$GUI/HP2/score.text = str(score)
+	$GUI/HP2/enemy_score.text = str(enemy_score)
+	$GUI/HP/ammo_label.text = str(current_weapon.ammo)
 	$GUI/HP/hp_label.text = str(hp)
 	
 

@@ -1,20 +1,24 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/weapons/revolver.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/weapons/shotgun.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/weapons/rifle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://textures/hit_marker.png" type="Texture" id=5]
-[ext_resource path="res://textures/progress.png" type="Texture" id=6]
+[ext_resource path="res://textures/multibar_2.png" type="Texture" id=6]
 [ext_resource path="res://textures/damage_indicator.png" type="Texture" id=7]
-[ext_resource path="res://default_font.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://textures/multibar_1.png" type="Texture" id=8]
+[ext_resource path="res://default_font.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://textures/multibar_3.png" type="Texture" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 
 [sub_resource type="DynamicFont" id=2]
 size = 48
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 
 [node name="player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -121,7 +125,6 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 400.326
-margin_bottom = 352.326
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -144,8 +147,7 @@ __meta__ = {
 [node name="sensitivity" type="Label" parent="debug_info"]
 margin_right = 66.0
 margin_bottom = 14.0
-text = "чувствительность
-мыши"
+text = "чувствительность"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -184,46 +186,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="score" type="Label" parent="GUI"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_top = 26.6516
-margin_bottom = 46.6516
-grow_horizontal = 2
-text = "ОЧКИ:0"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="enemy_score" type="Label" parent="GUI"]
-anchor_left = 1.0
-anchor_right = 1.0
-grow_horizontal = 0
-text = "ОЧКИ ОППОНЕНТА:андрей иди нафиг"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ammo" type="Label" parent="GUI"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -19.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_fonts/font = SubResource( 2 )
-text = "30/30"
-align = 2
-valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="doublejump_progress" type="TextureProgress" parent="GUI"]
 anchor_left = 0.5
 anchor_top = 1.0
@@ -237,19 +199,37 @@ value = 0.5
 texture_under = ExtResource( 6 )
 texture_progress = ExtResource( 6 )
 fill_mode = 6
-tint_under = Color( 0.21, 0.406, 0.42, 1 )
-tint_progress = Color( 0, 0.929412, 1, 1 )
+tint_under = Color( 0.6, 0.6, 0.6, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/doublejump_progress"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "прыжок"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HP" type="TextureProgress" parent="GUI"]
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -125.0
+margin_top = -55.3619
+margin_right = 125.0
+margin_bottom = -25.3619
 grow_horizontal = 2
+grow_vertical = 0
 value = 100.0
-texture_under = ExtResource( 6 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 8 )
+texture_progress = ExtResource( 8 )
 fill_mode = 6
 tint_under = Color( 0.42, 0.21, 0.21, 1 )
 tint_progress = Color( 0.823529, 0.133333, 0.133333, 1 )
@@ -258,13 +238,98 @@ __meta__ = {
 }
 
 [node name="hp_label" type="Label" parent="GUI/HP"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_bottom = 19.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = 0.45
+anchor_right = 0.45
+margin_top = -34.7761
+margin_bottom = 37.2239
+grow_horizontal = 0
+custom_fonts/font = SubResource( 2 )
 text = "100"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp_label2" type="Label" parent="GUI/HP"]
+margin_top = -16.3975
+text = "hp"
+
+[node name="ammo_label" type="Label" parent="GUI/HP"]
+anchor_left = 0.55
+anchor_right = 0.55
+margin_top = -34.7761
+margin_bottom = 37.2239
+custom_fonts/font = SubResource( 2 )
+text = "100"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ammo_label2" type="Label" parent="GUI/HP"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_top = -16.0
+grow_horizontal = 0
+text = "ammo"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP2" type="TextureProgress" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+value = 100.0
+texture_under = ExtResource( 10 )
+texture_progress = ExtResource( 10 )
+fill_mode = 6
+tint_under = Color( 0.42, 0.21, 0.21, 1 )
+tint_progress = Color( 0.823529, 0.133333, 0.133333, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score" type="Label" parent="GUI/HP2"]
+anchor_left = 0.45
+anchor_right = 0.45
+margin_left = -44.5
+margin_top = -10.0
+margin_right = 0.5
+margin_bottom = 62.4648
+grow_horizontal = 0
+custom_fonts/font = SubResource( 2 )
+text = "10"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score_label" type="Label" parent="GUI/HP2"]
+margin_top = 10.0
+text = "очки"
+
+[node name="enemy_score" type="Label" parent="GUI/HP2"]
+anchor_left = 0.55
+anchor_right = 0.55
+margin_top = -10.0
+custom_fonts/font = SubResource( 2 )
+text = "10"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="enemy_score_label" type="Label" parent="GUI/HP2"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_top = 10.0
+grow_horizontal = 0
+text = "очки
+врага"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="damage_indicator" type="TextureRect" parent="GUI"]
 modulate = Color( 1, 1, 1, 0 )
