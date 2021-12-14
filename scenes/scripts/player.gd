@@ -261,13 +261,13 @@ func hit_marker():
 	$crosshair/Control/hit_marker.modulate.a = 1.5
 
 func sync_stats():
-	$debug_info/stats.text = "\nсостояние " + String(state)
+	$debug_info/stats.text = "\nstate " + String(state)
 	$debug_info/stats.text += "\nHP " + String(hp)
-	$debug_info/stats.text += "\nочки " + String(score)
-	$debug_info/stats.text += "\nпатроны " + String(current_weapon.ammo)
-	$debug_info/stats.text += "\nдвойной прыжок " + String(can_doublejump)
-	$debug_info/stats.text += "\nвектор движения " + String(vel.length())
-	$debug_info/stats.text += "\nскорость " + String(spd)
+	$debug_info/stats.text += "\nscore " + String(score)
+	$debug_info/stats.text += "\nammo " + String(current_weapon.ammo)
+	$debug_info/stats.text += "\ndouble jump " + String(can_doublejump)
+	$debug_info/stats.text += "\nvelocity vec " + String(vel.length())
+	$debug_info/stats.text += "\nspeed " + String(spd)
 	
 	$GUI/doublejump_progress.value = can_doublejump
 	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)

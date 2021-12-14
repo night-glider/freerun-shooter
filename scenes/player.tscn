@@ -147,7 +147,7 @@ __meta__ = {
 [node name="sensitivity" type="Label" parent="debug_info"]
 margin_right = 66.0
 margin_bottom = 14.0
-text = "чувствительность"
+text = "mouse sensitivity"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,17 +156,17 @@ __meta__ = {
 margin_top = 35.0
 margin_right = 238.0
 margin_bottom = 235.0
-text = "H - вкл/выкл доп. информацию
-LMB - стрелять
-RMB - целиться
-SPACE - прыжок
-R - перезарядка
-W - бег по стене
-1 - револьвер
-2 - дробовик
-3 - автомат
-ESC - показать курсок
-F11 - полный экран
+text = "H - toggle additional info
+LMB - shoot
+RMB - aim
+SPACE - jump
+R - reload
+W - wallrun
+1 - revolver
+2 - shotgun
+3 - rifle
+ESC - show cursor
+F11 - fullscreen
 "
 __meta__ = {
 "_edit_use_anchors_": false
@@ -176,7 +176,10 @@ __meta__ = {
 margin_top = 280.307
 margin_right = 104.0
 margin_bottom = 305.307
-text = "Сброс очков"
+text = "reset score"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GUI" type="Control" parent="."]
 anchor_right = 1.0
@@ -211,7 +214,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "прыжок"
+text = "jump"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -307,7 +310,7 @@ __meta__ = {
 
 [node name="score_label" type="Label" parent="GUI/HP2"]
 margin_top = 10.0
-text = "очки"
+text = "score"
 
 [node name="enemy_score" type="Label" parent="GUI/HP2"]
 anchor_left = 0.55
@@ -325,8 +328,8 @@ anchor_left = 1.0
 anchor_right = 1.0
 margin_top = 10.0
 grow_horizontal = 0
-text = "очки
-врага"
+text = "enemy
+score"
 __meta__ = {
 "_edit_use_anchors_": false
 }
