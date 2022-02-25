@@ -42,3 +42,7 @@ func _on_Area_area_entered(area):
 		get_parent().damage(damage)
 	queue_free()
 	print("collided with area")
+
+
+func _on_Timer_timeout():
+	queue_free()

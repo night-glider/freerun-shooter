@@ -16,25 +16,9 @@ func shoot():
 		$shoot_here/Particles.emitting = true
 		baraban_spd = 5
 		
-		for i in 3:
-			$shoot_here/projectile_pos.rotation_degrees.y = (i+1) * 5
-			var trans:Transform = $shoot_here/projectile_pos.global_transform
-			var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * 1
-			var accel = Vector3.ZERO
-			var time = OS.get_system_time_msecs()
-			get_node("/root/world").rpc("create_projectile",trans, accel, velocity, 25, time)
-		for i in 3:
-			$shoot_here/projectile_pos.rotation_degrees.y = (i+1) * -5
-			var trans:Transform = $shoot_here/projectile_pos.global_transform
-			var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * 1
-			var accel = Vector3.ZERO
-			var time = OS.get_system_time_msecs()
-			get_node("/root/world").rpc("create_projectile",trans, accel, velocity, 25, time)
-		
-		$shoot_here/projectile_pos.rotation_degrees.y = 0
 		var trans:Transform = $shoot_here/projectile_pos.global_transform
 		var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * 1
-		var accel = Vector3.ZERO
+		var accel = Vector3.UP*0.001
 		var time = OS.get_system_time_msecs()
 		get_node("/root/world").rpc("create_projectile",trans, accel, velocity, 25, time)
 		

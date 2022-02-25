@@ -16,7 +16,7 @@ func shoot():
 		$shoot_here/projectile_pos.rotation_degrees.y = 0
 		var trans:Transform = $shoot_here/projectile_pos.global_transform
 		var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * 1
-		var accel = Vector3.ZERO
+		var accel = Vector3.UP*0.0025
 		var time = OS.get_system_time_msecs()
 		get_node("/root/world").rpc("create_projectile",trans, accel, velocity, 25, time)
 		
