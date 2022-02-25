@@ -29,7 +29,6 @@ var cam_id
 func _ready():
 	cam_id = $Camera
 	current_weapon = $Camera/revolver
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	randomize()
 
@@ -201,6 +200,7 @@ func _process(delta):
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
 		current_weapon.unzoom()
 	
+	
 	if Input.is_action_pressed("LMB"):
 		current_weapon.shoot()
 	
@@ -280,11 +280,15 @@ func sync_stats():
 
 
 func _on_connect_pressed():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$background.queue_free()
 	$multiplayer.queue_free()
 	get_parent().server_connect($multiplayer/ip.text)
 
 
 func _on_create_pressed():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$background.queue_free()
 	$multiplayer.queue_free()
 	get_parent().server_create()
 

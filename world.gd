@@ -12,13 +12,18 @@ remote func _set_pos(trans:Transform):
 remote func _take_hit(damage:int):
 	$player.take_hit(damage)
 	
-remote func _trail(end_point : Vector3):
-	var new_gun_trail = trail.instance()
-	add_child(new_gun_trail)
-	new_gun_trail.global_transform.origin = $enemy/shoot_pos.global_transform.origin
-	new_gun_trail.look_at(end_point, Vector3.UP)
-	new_gun_trail.scale.z = new_gun_trail.global_transform.origin.distance_to(end_point)
-	new_gun_trail.get_node("MeshInstance").get_surface_material(0).albedo_color = Color.red
+
+###DEPRECATED GAME HAS NO HITSCAN NOW
+#remote func _trail(end_point : Vector3):
+#	var new_gun_trail = trail.instance()
+#	add_child(new_gun_trail)
+#	new_gun_trail.global_transform.origin = $enemy/shoot_pos.global_transform.origin
+#	new_gun_trail.look_at(end_point, Vector3.UP)
+#	new_gun_trail.scale.z = new_gun_trail.global_transform.origin.distance_to(end_point)
+#	new_gun_trail.get_node("MeshInstance").get_surface_material(0).albedo_color = Color.red
+
+#func create_trail(end_point : Vector3):
+#	rpc_unreliable("_trail", end_point)
 
 remote func _score():
 	$player.get_score()
@@ -26,9 +31,6 @@ remote func _score():
 func damage(damage:int):
 	rpc("_take_hit", damage)
 
-func create_trail(end_point : Vector3):
-	rpc_unreliable("_trail", end_point)
-	
 
 func pass_score():
 	rpc("_score")
@@ -59,3 +61,10 @@ func _player_connected(id):
 
 func _player_disconnected(id):
 	OS.alert("disconected")
+
+
+remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, damage:float, time:int):
+	var proj = preload("res://scenes/projectile.tscn").instance()
+	add_child(proj)
+	proj.init(start, accel, vel, damage, time)
+	

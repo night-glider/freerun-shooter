@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/projectile.gd" type="Script" id=1]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.5
+height = 1.0
+radial_segments = 8
+rings = 8
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+albedo_color = Color( 0.819608, 0, 0, 1 )
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.5
+
+[sub_resource type="SphereMesh" id=4]
+radius = 0.6
+height = 1.0
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 1, 0.866667, 0, 0.270588 )
+
+[node name="projectile" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 3 )
+
+[node name="Area" type="Area" parent="." groups=["projectile"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

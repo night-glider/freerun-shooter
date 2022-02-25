@@ -85,34 +85,6 @@ anchor_bottom = 0.5
 scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
-[node name="multiplayer" type="Control" parent="."]
-margin_top = 315.454
-margin_right = 143.0
-margin_bottom = 422.454
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ip" type="LineEdit" parent="multiplayer"]
-anchor_right = 1.0
-margin_bottom = 24.0
-text = "127.0.0.1"
-
-[node name="connect" type="Button" parent="multiplayer"]
-anchor_right = 1.0
-margin_top = 33.713
-margin_bottom = 58.713
-text = "connect"
-
-[node name="create" type="Button" parent="multiplayer"]
-anchor_right = 1.0
-margin_top = 65.8385
-margin_bottom = 90.8385
-text = "create"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="debug_info" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -354,6 +326,55 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.14902, 0.172549, 0.231373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="multiplayer" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -50.0
+margin_right = 100.0
+margin_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ip" type="LineEdit" parent="multiplayer"]
+anchor_right = 1.0
+margin_bottom = 24.0
+text = "127.0.0.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="connect" type="Button" parent="multiplayer"]
+anchor_right = 1.0
+margin_top = 33.713
+margin_bottom = 58.713
+text = "connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="create" type="Button" parent="multiplayer"]
+anchor_right = 1.0
+margin_top = 65.8385
+margin_bottom = 90.8385
+text = "create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]
 [connection signal="pressed" from="multiplayer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="multiplayer/create" to="." method="_on_create_pressed"]
-[connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]
