@@ -33,7 +33,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 current = true
 fov = 80.0
 near = 0.01
-far = 1000.0
+far = 300.0
 
 [node name="default_position" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.387342, -0.217273, -0.510463 )
@@ -352,7 +352,7 @@ __meta__ = {
 }
 
 [node name="change_weapon" type="MenuButton" parent="background"]
-text = "Change weapon"
+text = "Оружие"
 flat = false
 items = [ "Revolver", null, 0, false, false, 0, 0, null, "", false, "Shotgun", null, 0, false, false, 1, 0, null, "", false, "Rifle", null, 0, false, false, 2, 0, null, "", false ]
 __meta__ = {
@@ -360,14 +360,8 @@ __meta__ = {
 }
 
 [node name="multiplayer" type="Control" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -50.0
-margin_right = 100.0
-margin_bottom = 50.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 __meta__ = {
@@ -375,7 +369,10 @@ __meta__ = {
 }
 
 [node name="ip" type="LineEdit" parent="multiplayer"]
-anchor_right = 1.0
+anchor_left = 0.4
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.5
 margin_bottom = 24.0
 text = "127.0.0.1"
 __meta__ = {
@@ -383,7 +380,10 @@ __meta__ = {
 }
 
 [node name="connect" type="Button" parent="multiplayer"]
-anchor_right = 1.0
+anchor_left = 0.4
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.5
 margin_top = 33.713
 margin_bottom = 58.713
 text = "connect"
@@ -392,7 +392,10 @@ __meta__ = {
 }
 
 [node name="create" type="Button" parent="multiplayer"]
-anchor_right = 1.0
+anchor_left = 0.4
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.5
 margin_top = 65.8385
 margin_bottom = 90.8385
 text = "create"
@@ -401,7 +404,10 @@ __meta__ = {
 }
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="multiplayer"]
-anchor_right = 1.0
+anchor_left = 0.4
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.5
 margin_top = -50.0
 margin_bottom = -10.0
 grow_vertical = 0
@@ -412,7 +418,10 @@ __meta__ = {
 }
 
 [node name="nickname" type="LineEdit" parent="multiplayer"]
-anchor_right = 1.0
+anchor_left = 0.4
+anchor_top = 0.5
+anchor_right = 0.6
+anchor_bottom = 0.5
 margin_top = -85.0
 margin_bottom = -60.0
 text = "test_nick"
@@ -425,7 +434,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="server_settings" type="GridContainer" parent="multiplayer"]
+anchor_left = 0.65
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="multiplayer/server_settings"]
+margin_top = 5.0
+margin_right = 109.0
+margin_bottom = 20.0
+text = "Кол-во раундов: "
+
+[node name="SpinBox" type="SpinBox" parent="multiplayer/server_settings"]
+margin_left = 113.0
+margin_right = 187.0
+margin_bottom = 25.0
+min_value = 3.0
+max_value = 20.0
+value = 5.0
+align = 1
+
 [node name="card_choice" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2

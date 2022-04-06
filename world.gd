@@ -3,9 +3,13 @@ var trail = preload("res://scenes/weapons/bullet_trail.tscn")
 var bullet_destroy_effect = preload("res://scenes/weapons/bullet_destroy_effect.tscn")
 var network_active = false
 var player
+var peer:NetworkedMultiplayerENet
 var enemy_nickname = "EMPTY NICKNAME"
 
 func _ready():
+	if get_tree().network_peer != null:
+		get_tree().network_peer.close_connection()
+	
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
@@ -28,8 +32,20 @@ remote func _take_hit(damage:int):
 #func create_trail(end_point : Vector3):
 #	rpc_unreliable("_trail", end_point)
 
+func restart_game():
+	get_tree().change_scene("res://world.tscn")
+
+remotesync func _notificate(message:String):
+	$player.notificate(message)
+
 remote func _score():
 	$player.get_score()
+	
+	if $player.score >= 5:
+		restart_game()
+
+func notificate(message:String):
+	rpc("_notificate", message)
 
 func damage(damage:int):
 	rpc("_take_hit", damage)
@@ -39,7 +55,8 @@ func pass_score():
 	rpc("_score")
 
 func server_create():
-	var peer = NetworkedMultiplayerENet.new()
+	get_tree().network_peer = null
+	peer = NetworkedMultiplayerENet.new()
 	peer.always_ordered = false
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_server(6969, 10)
@@ -50,7 +67,7 @@ func server_create():
 
 
 func server_connect(ip:String):
-	var peer = NetworkedMultiplayerENet.new()
+	peer = NetworkedMultiplayerENet.new()
 	peer.always_ordered = false
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_client(ip, 6969)
@@ -73,6 +90,15 @@ func projectile_destroy_effect(trans:Transform):
 	var new_effect = bullet_destroy_effect.instance()
 	new_effect.global_transform = trans
 	add_child(new_effect)
+
+func respawn():
+	rpc("_respawn")
+
+remotesync func _respawn():
+	if get_tree().get_network_unique_id() == 1:
+		$player.global_transform = $spawnpoints/host.global_transform
+	else:
+		$player.global_transform = $spawnpoints/client.global_transform
 
 remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int):
 	pass

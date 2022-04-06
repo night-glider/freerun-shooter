@@ -251,12 +251,10 @@ func restart():
 	get_parent().pass_score()
 	current_weapon.ammo = current_weapon.max_ammo
 	
-	var far_spawnpoint = get_parent().get_node("spawnpoints/spawnpoint1")
-	for element in get_parent().get_node("spawnpoints").get_children():
-		if element.global_transform.origin.distance_to(get_parent().get_node("enemy").global_transform.origin) > far_spawnpoint.global_transform.origin.distance_to(get_parent().get_node("enemy").global_transform.origin):
-			far_spawnpoint = element
+	global_transform.origin = Vector3(500,1,500)
 	
-	global_transform.origin = far_spawnpoint.global_transform.origin
+	if enemy_score >= 5:
+		get_parent().restart_game()
 
 func notificate(message:String):
 	$GUI/notification/Label.text = message

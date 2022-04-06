@@ -33,9 +33,11 @@ func card3():
 	get_parent().current_weapon.bullet_spd *= 0.5
 
 func _ready():
-	show()
+	pass
+	#show()
 
 func show():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	visible = true
 	var cards_array = []
 	for element in cards:
@@ -51,22 +53,24 @@ func show():
 	
 
 func close():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	visible = false
+	get_parent().get_parent().respawn()
 
 
 func _on_card1_pressed():
 	close()
 	call(card1)
-	get_parent().notificate(get_parent().nickname + " picked " + str(cards[card1]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked " + str(cards[card1]["name"]))
 
 
 func _on_card2_pressed():
 	close()
 	call(card2)
-	get_parent().notificate(get_parent().nickname + " picked" + str(cards[card2]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card2]["name"]))
 
 
 func _on_card3_pressed():
 	close()
 	call(card3)
-	get_parent().notificate(get_parent().nickname + " picked" + str(cards[card3]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card3]["name"]))
