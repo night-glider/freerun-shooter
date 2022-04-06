@@ -16,6 +16,9 @@ var enemy_score = 0 #очки оппонента
 var can_doublejump = 1 #заполняется постепенно до 1
 var doublejump_spd = 0.01
 
+onready var color = $multiplayer/ColorPickerButton.color
+var nickname
+
 var current_weapon
 
 #анимация камеры
@@ -149,7 +152,7 @@ func _physics_process(delta):
 	cam_id.rotation_degrees.x -= mouse_delta.y * mouse_sensitivity
 	rotation_degrees.y -= mouse_delta.x * mouse_sensitivity
 	
-	cam_id.rotation_degrees.x = clamp(cam_id.rotation_degrees.x,-80,80)
+	cam_id.rotation_degrees.x = clamp(cam_id.rotation_degrees.x,-90,90)
 	
 	mouse_delta.y = 0
 	mouse_delta.x = 0
@@ -280,6 +283,9 @@ func sync_stats():
 
 
 func _on_connect_pressed():
+	nickname = $multiplayer/nickname.text
+	color = $multiplayer/ColorPickerButton.color
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
@@ -287,6 +293,9 @@ func _on_connect_pressed():
 
 
 func _on_create_pressed():
+	nickname = $multiplayer/nickname.text
+	color = $multiplayer/ColorPickerButton.color
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
@@ -296,3 +305,4 @@ func _on_create_pressed():
 func _on_reset_score_pressed():
 	score = 0
 	enemy_score = 0
+

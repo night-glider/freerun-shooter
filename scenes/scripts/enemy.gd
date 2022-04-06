@@ -2,6 +2,9 @@ extends Area
 
 var target_trans = Transform()
 
+func change_color(new_col:Color):
+	$MeshInstance.mesh.material.albedo_color = new_col
+
 func set_pos(trans:Transform):
 	target_trans = trans
 

@@ -1,6 +1,8 @@
 extends Spatial
 var trail = preload("res://scenes/weapons/bullet_trail.tscn")
+var bullet_destroy_effect = preload("res://scenes/weapons/bullet_destroy_effect.tscn")
 var network_active = false
+var player
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -41,6 +43,8 @@ func server_create():
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_server(6969, 10)
 	get_tree().network_peer = peer
+	print(get_tree().get_network_unique_id())
+	
 	#OS.alert("server_created")
 
 
@@ -50,6 +54,7 @@ func server_connect(ip:String):
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_client(ip, 6969)
 	get_tree().network_peer = peer
+	print(get_tree().get_network_unique_id())
 	#OS.alert("connected")
 
 func _process(delta):
@@ -57,14 +62,22 @@ func _process(delta):
 		rpc_unreliable("_set_pos", $player.transform)
 
 func _player_connected(id):
+	rpc("update_player_info", $player.nickname, $player.color)
 	network_active = true
 
 func _player_disconnected(id):
 	OS.alert("disconected")
 
+func projectile_destroy_effect(trans:Transform):
+	var new_effect = bullet_destroy_effect.instance()
+	new_effect.global_transform = trans
+	add_child(new_effect)
 
-remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, damage:float, time:int):
+remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int):
 	var proj = preload("res://scenes/projectile.tscn").instance()
 	add_child(proj)
-	proj.init(start, accel, vel, damage, time)
-	
+	proj.init(start, accel, vel, scale_mod, damage, color, time)
+
+remote func update_player_info(nickname:String, color:Color):
+	$enemy.change_color(color)
+	pass

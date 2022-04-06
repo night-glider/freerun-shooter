@@ -2,6 +2,9 @@ extends Spatial
 var trail = preload("res://scenes/weapons/bullet_trail.tscn")
 var max_ammo = 30
 var damage = 15
+var bullet_spd = 1
+var bullet_gravity = 0.0025
+var bullet_scale_modifier = 1
 var ammo = max_ammo
 var can_shoot = true
 
@@ -15,10 +18,11 @@ func shoot():
 		
 		$shoot_here/projectile_pos.rotation_degrees.y = 0
 		var trans:Transform = $shoot_here/projectile_pos.global_transform
-		var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * 1
-		var accel = Vector3.UP*0.0025
+		var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * bullet_spd
+		var accel = Vector3.UP*bullet_gravity
+		var color = get_parent().get_parent().color
 		var time = OS.get_system_time_msecs()
-		get_node("/root/world").rpc("create_projectile",trans, accel, velocity, 25, time)
+		get_node("/root/world").rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
 		
 		ammo-=1
 		can_shoot = false
