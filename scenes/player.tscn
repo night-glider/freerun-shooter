@@ -326,6 +326,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="notification" type="ColorRect" parent="GUI"]
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.3
+color = Color( 0, 0, 0, 0.490196 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/notification"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "NIGHT-GLIDER picked \"fury\""
+align = 1
+valign = 1
+
 [node name="background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0

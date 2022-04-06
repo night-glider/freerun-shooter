@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/projectile.gd" type="Script" id=1]
 
@@ -23,9 +23,6 @@ height = 1.0
 flags_transparent = true
 flags_unshaded = true
 albedo_color = Color( 1, 0.866667, 0, 0.0980392 )
-
-[sub_resource type="CubeMesh" id=7]
-size = Vector3( 0.2, 0.2, 3 )
 
 [node name="projectile" type="Spatial"]
 script = ExtResource( 1 )
@@ -57,11 +54,6 @@ cast_to = Vector3( 0, 0, -1 )
 collide_with_areas = true
 debug_shape_custom_color = Color( 0.945098, 1, 0, 1 )
 debug_shape_thickness = 5.0
-
-[node name="MeshInstance3" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 7 )
-material/0 = null
 
 [connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

@@ -3,6 +3,7 @@ var trail = preload("res://scenes/weapons/bullet_trail.tscn")
 var bullet_destroy_effect = preload("res://scenes/weapons/bullet_destroy_effect.tscn")
 var network_active = false
 var player
+var enemy_nickname = "EMPTY NICKNAME"
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -66,7 +67,7 @@ func _player_connected(id):
 	network_active = true
 
 func _player_disconnected(id):
-	OS.alert("disconected")
+	$player.notificate( enemy_nickname + " Disconnected" )
 
 func projectile_destroy_effect(trans:Transform):
 	var new_effect = bullet_destroy_effect.instance()
@@ -74,10 +75,14 @@ func projectile_destroy_effect(trans:Transform):
 	add_child(new_effect)
 
 remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int):
+	pass
 	var proj = preload("res://scenes/projectile.tscn").instance()
 	add_child(proj)
 	proj.init(start, accel, vel, scale_mod, damage, color, time)
 
 remote func update_player_info(nickname:String, color:Color):
+	enemy_nickname = nickname
 	$enemy.change_color(color)
+	
+	$player.notificate( enemy_nickname + " Connected" )
 	pass

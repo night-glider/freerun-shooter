@@ -6,7 +6,7 @@ var state = IDLE
 
 var start_spd = 10 #стартовая скорость
 var max_spd = 35 #максимальная скорость
-var spd = 10 # текущая скорость
+var spd = 10 #текущая скорость
 var mouse_sensitivity = 0.1 #чувствительность мыши
 var vel = Vector3(0,0,0) #вектор движения
 var mouse_delta = Vector2() #хранит в себе перемещение мышки
@@ -15,6 +15,8 @@ var score = 0 #очки
 var enemy_score = 0 #очки оппонента
 var can_doublejump = 1 #заполняется постепенно до 1
 var doublejump_spd = 0.01
+var recoil_offset = Vector3.ZERO #это значение прибавляется к текущей ротации камеры.
+var recoil_offset_target = Vector3.ZERO
 
 onready var color = $multiplayer/ColorPickerButton.color
 var nickname
@@ -22,6 +24,7 @@ var nickname
 var current_weapon
 
 #анимация камеры
+var cam_base_rotation = Vector3.ZERO
 var shake_intensity = 0
 var shake_diff = 0
 
@@ -34,6 +37,7 @@ func _ready():
 	current_weapon = $Camera/revolver
 	
 	randomize()
+
 
 
 func _physics_process(delta):
@@ -125,18 +129,18 @@ func _physics_process(delta):
 		var vec1 = Vector2(get_slide_collision(0).normal.x, get_slide_collision(0).normal.z)
 		var vec2 = Vector2(forward.x, forward.z)
 		if vec1.angle_to(vec2) <= 0:
-			cam_id.rotation_degrees.z = lerp(cam_id.rotation_degrees.z, 15, 0.1)
+			cam_base_rotation.z = lerp(cam_base_rotation.z, 15, 0.1)
 		else:
-			cam_id.rotation_degrees.z = lerp(cam_id.rotation_degrees.z, -15, 0.1)
+			cam_base_rotation.z = lerp(cam_base_rotation.z, -15, 0.1)
 	else:
-		cam_id.rotation_degrees.z = lerp(cam_id.rotation_degrees.z, 0, 0.1)
+		cam_base_rotation.z = lerp(cam_base_rotation.z, 0, 0.1)
 	
 	#анимация наклона камеры при стрейфе
 	if state == FALLING or state == RUN:
 		if Input.is_action_pressed("move_left"):
-			cam_id.rotation_degrees.z = lerp(cam_id.rotation_degrees.z, 15, 0.02)
+			cam_base_rotation.z = lerp(cam_base_rotation.z, 15, 0.02)
 		if Input.is_action_pressed("move_right"):
-			cam_id.rotation_degrees.z = lerp(cam_id.rotation_degrees.z, -15, 0.02)
+			cam_base_rotation.z = lerp(cam_base_rotation.z, -15, 0.02)
 	
 	#анимация пушки при беге по стенам
 	if state == WALL_RUN:
@@ -149,8 +153,14 @@ func _physics_process(delta):
 		spd = clamp(test.length(), start_spd, 999)
 	
 	#поворот камеры мышкой
-	cam_id.rotation_degrees.x -= mouse_delta.y * mouse_sensitivity
+	cam_base_rotation.x -= mouse_delta.y * mouse_sensitivity
 	rotation_degrees.y -= mouse_delta.x * mouse_sensitivity
+	
+	#компенсация отдачи
+	cam_id.rotation_degrees = cam_base_rotation + recoil_offset
+	
+	recoil_offset = lerp(recoil_offset, recoil_offset_target, 0.1)
+	recoil_offset_target = lerp(recoil_offset_target, Vector3.ZERO, 0.1)
 	
 	cam_id.rotation_degrees.x = clamp(cam_id.rotation_degrees.x,-90,90)
 	
@@ -198,10 +208,8 @@ func _process(delta):
 	
 	if Input.is_action_pressed("RMB"):
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
-		current_weapon.zoom()
 	else:
 		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
-		current_weapon.unzoom()
 	
 	
 	if Input.is_action_pressed("LMB"):
@@ -226,6 +234,9 @@ func _process(delta):
 	if translation.y < -10:
 		restart()
 	
+	$GUI/notification.modulate.a -= 0.01
+	
+	
 	
 func _input(event):
 	#получаем сдвиг мыши
@@ -245,7 +256,10 @@ func restart():
 			far_spawnpoint = element
 	
 	global_transform.origin = far_spawnpoint.global_transform.origin
-	
+
+func notificate(message:String):
+	$GUI/notification/Label.text = message
+	$GUI/notification.modulate.a = 1
 
 func shake_camera(intensity, time):
 	shake_intensity+=intensity
