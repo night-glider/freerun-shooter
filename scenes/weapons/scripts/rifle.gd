@@ -70,10 +70,14 @@ func shoot():
 		get_parent().get_parent().recoil_offset_target += Vector3(recoil_factor_x, rand_range(-recoil_factor_y, recoil_factor_y), 0)
 		
 		#unique shoot code
-		translation.z += 0.1
-		rotation_degrees.x += 0
-		rotation_degrees.z = + rand_range(-5,5)
+		$model.translation.z += 0.1
+		$model.rotation_degrees.x += 0
+		$model.rotation_degrees.z = + rand_range(-5,5)
 		
+
+func _process(delta):
+	$model.translation = lerp($model.translation,Vector3.ZERO,0.1)
+	$model.rotation_degrees = lerp($model.rotation_degrees, Vector3.ZERO, 0.1)
 
 func reload():
 	ammo = max_ammo

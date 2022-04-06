@@ -74,8 +74,8 @@ func shoot():
 		get_parent().get_parent().recoil_offset_target += Vector3(recoil_factor_x, rand_range(-recoil_factor_y, recoil_factor_y), 0)
 		
 		#unique shoot code
-		translation.z = -0.1
-		rotation_degrees.x = 45
+		$model.translation.z = 0.2
+		$model.rotation_degrees.x = 45
 		baraban_spd = 5
 
 func reload():
@@ -84,7 +84,10 @@ func reload():
 	$AnimationPlayer.play("reload")
 
 func _process(delta):
-	$revolverA/Spatial.rotation_degrees.x+=baraban_spd
+	$model.translation = lerp($model.translation,Vector3.ZERO,0.1)
+	$model.rotation_degrees = lerp($model.rotation_degrees, Vector3.ZERO, 0.1)
+	
+	$model/revolverA/Spatial.rotation_degrees.x+=baraban_spd
 	baraban_spd = lerp(baraban_spd, 0, 0.015)
 
 

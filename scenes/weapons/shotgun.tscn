@@ -28,7 +28,7 @@ size = Vector3( 0.1, 0.1, 0.1 )
 [sub_resource type="Animation" id=6]
 length = 0.4
 tracks/0/type = "value"
-tracks/0/path = NodePath("shotgun:transform")
+tracks/0/path = NodePath("model/shotgun:transform")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -65,7 +65,9 @@ anims/reload = SubResource( 6 )
 [node name="cooldown" type="Timer" parent="."]
 wait_time = 0.3
 
-[node name="shotgun" parent="." instance=ExtResource( 1 )]
+[node name="model" type="Spatial" parent="."]
+
+[node name="shotgun" parent="model" instance=ExtResource( 1 )]
 transform = Transform( -1.74846e-08, 0, 0.7, 1.39876e-07, 0.7, 1.06998e-14, -0.4, 2.44784e-07, -3.0598e-08, 0, -0.131168, 0.181814 )
 
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

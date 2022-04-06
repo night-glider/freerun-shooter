@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/weapons/revolver.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://textures/multibar_1.png" type="Texture" id=8]
 [ext_resource path="res://default_font.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://textures/multibar_3.png" type="Texture" id=10]
+[ext_resource path="res://scenes/card_choice.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -350,6 +351,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="change_weapon" type="MenuButton" parent="background"]
+text = "Change weapon"
+flat = false
+items = [ "Revolver", null, 0, false, false, 0, 0, null, "", false, "Shotgun", null, 0, false, false, 1, 0, null, "", false, "Rifle", null, 0, false, false, 2, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="multiplayer" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -416,6 +425,136 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="card_choice" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="card1" type="Control" parent="card_choice"]
+anchor_left = 0.2
+anchor_top = 0.5
+anchor_right = 0.2
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -100.0
+margin_right = 50.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="card_choice/card1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="card_choice/card1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+bbcode_enabled = true
+bbcode_text = "[center]TEST_NAME[/center]
+[color=green]+1 omegalul[/color]
+[color=red]-1 IQ[/color]"
+text = "TEST_NAME
++1 omegalul
+-1 IQ"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="card2" type="Control" parent="card_choice"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -100.0
+margin_right = 50.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="card_choice/card2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="card_choice/card2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+bbcode_enabled = true
+bbcode_text = "[center]TEST_NAME[/center]
+[color=green]+1 omegalul[/color]
+[color=red]-1 IQ[/color]"
+text = "TEST_NAME
++1 omegalul
+-1 IQ"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="card3" type="Control" parent="card_choice"]
+anchor_left = 0.8
+anchor_top = 0.5
+anchor_right = 0.8
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -100.0
+margin_right = 50.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="card_choice/card3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="card_choice/card3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+bbcode_enabled = true
+bbcode_text = "[center]TEST_NAME[/center]
+[color=green]+1 omegalul[/color]
+[color=red]-1 IQ[/color]"
+text = "TEST_NAME
++1 omegalul
+-1 IQ"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]
 [connection signal="pressed" from="multiplayer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="multiplayer/create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="card_choice/card1/Button" to="card_choice" method="_on_card1_pressed"]
+[connection signal="pressed" from="card_choice/card2/Button" to="card_choice" method="_on_card2_pressed"]
+[connection signal="pressed" from="card_choice/card3/Button" to="card_choice" method="_on_card3_pressed"]

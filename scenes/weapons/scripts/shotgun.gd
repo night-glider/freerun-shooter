@@ -70,8 +70,8 @@ func shoot():
 		get_parent().get_parent().recoil_offset_target += Vector3(recoil_factor_x, rand_range(-recoil_factor_y, recoil_factor_y), 0)
 		
 		#unique code here
-		translation.z += 0.5
-		rotation_degrees.x = 5
+		$model.translation.z += 0.5
+		$model.rotation_degrees.x = 5
 
 func reload():
 	$cooldown.start()
@@ -79,14 +79,9 @@ func reload():
 	ammo = max_ammo
 	$AnimationPlayer.play("reload")
 
-func zoom():
-	pass
-
-func unzoom():
-	pass
-
 func _process(delta):
-	pass
+	$model.translation = lerp($model.translation,Vector3.ZERO,0.1)
+	$model.rotation_degrees = lerp($model.rotation_degrees, Vector3.ZERO, 0.1)
 
 
 func _on_cooldown_timeout():

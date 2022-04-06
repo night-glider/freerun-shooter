@@ -19,7 +19,7 @@ var recoil_offset = Vector3.ZERO #это значение прибавляетс
 var recoil_offset_target = Vector3.ZERO
 
 onready var color = $multiplayer/ColorPickerButton.color
-var nickname
+var nickname = "EMPTY NICK"
 
 var current_weapon
 
@@ -31,14 +31,13 @@ var shake_diff = 0
 #ноды
 var cam_id
 
-
 func _ready():
 	cam_id = $Camera
 	current_weapon = $Camera/revolver
 	
 	randomize()
-
-
+	
+	$background/change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
 
 func _physics_process(delta):
 	var forward = transform.basis.z #базисный вектор по z относительно игрока
@@ -185,23 +184,23 @@ func _process(delta):
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
 	
-	if Input.is_action_just_pressed("grab_revolver"):
-		current_weapon.visible = false
-		current_weapon = $Camera/revolver
-		current_weapon.transform = $Camera/grab_position.transform
-		current_weapon.visible = true
-	
-	if Input.is_action_just_pressed("grab_shotgun"):
-		current_weapon.visible = false
-		current_weapon = $Camera/shotgun
-		current_weapon.transform = $Camera/grab_position.transform
-		current_weapon.visible = true
-	
-	if Input.is_action_just_pressed("grab_rifle"):
-		current_weapon.visible = false
-		current_weapon = $Camera/rifle
-		current_weapon.transform = $Camera/grab_position.transform
-		current_weapon.visible = true
+#	if Input.is_action_just_pressed("grab_revolver"):
+#		current_weapon.visible = false
+#		current_weapon = $Camera/revolver
+#		current_weapon.transform = $Camera/grab_position.transform
+#		current_weapon.visible = true
+#
+#	if Input.is_action_just_pressed("grab_shotgun"):
+#		current_weapon.visible = false
+#		current_weapon = $Camera/shotgun
+#		current_weapon.transform = $Camera/grab_position.transform
+#		current_weapon.visible = true
+#
+#	if Input.is_action_just_pressed("grab_rifle"):
+#		current_weapon.visible = false
+#		current_weapon = $Camera/rifle
+#		current_weapon.transform = $Camera/grab_position.transform
+#		current_weapon.visible = true
 	
 	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
 		current_weapon.reload()
@@ -244,6 +243,8 @@ func _input(event):
 		mouse_delta = event.relative
 
 func restart():
+	$card_choice.show()
+	
 	enemy_score += 1
 	hp = 100
 	vel = Vector3(0,0,0)
@@ -320,3 +321,15 @@ func _on_reset_score_pressed():
 	score = 0
 	enemy_score = 0
 
+func change_weapon(id):
+	current_weapon.visible = false
+	match id:
+		0:
+			current_weapon = $Camera/revolver
+		1:
+			current_weapon = $Camera/shotgun
+		2:
+			current_weapon = $Camera/rifle
+	
+	current_weapon.transform = $Camera/grab_position.transform
+	current_weapon.visible = true
