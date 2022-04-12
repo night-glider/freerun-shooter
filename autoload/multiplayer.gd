@@ -4,6 +4,8 @@ var peer:NetworkedMultiplayerENet
 var enemy_nickname = "EMPTY NICKNAME"
 var max_rounds = 5
 
+var last_time:int
+
 ###узлы
 var world:Spatial
 var player:Spatial
@@ -117,11 +119,18 @@ remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, s
 	var proj = preload("res://scenes/projectile.tscn").instance()
 	world.add_child(proj)
 	proj.init(start, accel, vel, scale_mod, damage, color, time)
-	
-	
-
 
 
 #перезапуск матча после выигрыша
 func _on_win_timer_timeout():
 	rpc("restart_game")
+
+#проверка пинга
+func ping():
+	last_time = OS.get_system_time_msecs()
+	rpc_unreliable("_ping_send")
+remote func _ping_send():
+	rpc_unreliable("_ping_receive")
+remote func _ping_receive():
+	var diff = OS.get_system_time_msecs() - last_time
+	OS.alert(str(diff))

@@ -349,3 +349,7 @@ func change_weapon(id):
 
 func _on_notification_timer_timeout():
 	notificate_fade = true
+
+
+func _on_ping_button_pressed():
+	Multiplayer.ping()
