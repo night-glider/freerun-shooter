@@ -54,7 +54,7 @@ func _on_Area_body_entered(body):
 	if body.is_in_group("friend"):
 		return
 	
-	#get_node("/root/world").projectile_destroy_effect(global_transform)
+	#Multiplayer.projectile_destroy_effect(global_transform)
 	queue_free()
 	#print("collided with " + body.name)
 
@@ -62,7 +62,7 @@ func _on_Area_area_entered(area):
 	if area.is_in_group("enemy"):
 		get_parent().damage(damage)
 		queue_free()
-	#get_node("/root/world").projectile_destroy_effect(global_transform)
+	#Multiplayer.projectile_destroy_effect(global_transform)
 	#print("collided with area")
 
 

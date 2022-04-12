@@ -343,9 +343,13 @@ text = "NIGHT-GLIDER picked \"fury\""
 align = 1
 valign = 1
 
+[node name="timer" type="Timer" parent="GUI/notification"]
+one_shot = true
+
 [node name="background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 color = Color( 0.14902, 0.172549, 0.231373, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -364,6 +368,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -588,6 +593,7 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]
+[connection signal="timeout" from="GUI/notification/timer" to="." method="_on_notification_timer_timeout"]
 [connection signal="pressed" from="multiplayer/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="multiplayer/create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="card_choice/card1/Button" to="card_choice" method="_on_card1_pressed"]

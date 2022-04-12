@@ -39,7 +39,7 @@ func shoot():
 		var accel = Vector3.UP*bullet_gravity
 		var color = get_parent().get_parent().color
 		var time = OS.get_system_time_msecs()
-		get_node("/root/world").rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
+		Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
 		bullet_count-=1
 		
 		#shoot remaining bullets
@@ -58,7 +58,7 @@ func shoot():
 				accel = Vector3.UP*bullet_gravity
 				color = get_parent().get_parent().color
 				time = OS.get_system_time_msecs()
-				get_node("/root/world").rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
+				Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
 		if multiple_bullet_spread_type == 1:
 			for i in bullet_count:
 				$shoot_here/projectile_pos.rotation_degrees.x = rand_range(-multiple_bullet_angle, multiple_bullet_angle)
@@ -69,7 +69,7 @@ func shoot():
 				accel = Vector3.UP*bullet_gravity
 				color = get_parent().get_parent().color
 				time = OS.get_system_time_msecs()
-				get_node("/root/world").rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
+				Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
 		
 		get_parent().get_parent().recoil_offset_target += Vector3(recoil_factor_x, rand_range(-recoil_factor_y, recoil_factor_y), 0)
 		

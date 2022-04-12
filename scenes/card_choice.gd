@@ -61,16 +61,16 @@ func close():
 func _on_card1_pressed():
 	close()
 	call(card1)
-	get_parent().get_parent().notificate(get_parent().nickname + " picked " + str(cards[card1]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked " + str(cards[card1]["name"]), 2)
 
 
 func _on_card2_pressed():
 	close()
 	call(card2)
-	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card2]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card2]["name"]), 2)
 
 
 func _on_card3_pressed():
 	close()
 	call(card3)
-	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card3]["name"]))
+	get_parent().get_parent().notificate(get_parent().nickname + " picked" + str(cards[card3]["name"]), 2)

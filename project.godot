@@ -17,6 +17,7 @@ config/icon="res://textures/icon.png"
 [autoload]
 
 DrawLine3d="*res://DrawLine3D.gd"
+Multiplayer="*res://autoload/multiplayer.tscn"
 
 [debug]
 

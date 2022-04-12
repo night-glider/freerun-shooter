@@ -20,7 +20,7 @@ var recoil_offset_target = Vector3.ZERO
 
 onready var color = $multiplayer/ColorPickerButton.color
 var nickname = "EMPTY NICK"
-
+var notificate_fade = true
 var current_weapon
 
 #анимация камеры
@@ -233,7 +233,8 @@ func _process(delta):
 	if translation.y < -10:
 		restart()
 	
-	$GUI/notification.modulate.a -= 0.01
+	if notificate_fade:
+		$GUI/notification.modulate.a -= 0.01
 	
 	
 	
@@ -243,20 +244,26 @@ func _input(event):
 		mouse_delta = event.relative
 
 func restart():
-	$card_choice.show()
-	
 	enemy_score += 1
+	if enemy_score >= Multiplayer.max_rounds:
+		hp = 100
+		vel = Vector3(0,0,0)
+		Multiplayer.pass_score()
+		Multiplayer.respawn()
+		return
+	
+	$card_choice.show()
 	hp = 100
 	vel = Vector3(0,0,0)
-	get_parent().pass_score()
+	Multiplayer.pass_score()
 	current_weapon.ammo = current_weapon.max_ammo
 	
 	global_transform.origin = Vector3(500,1,500)
 	
-	if enemy_score >= 5:
-		get_parent().restart_game()
 
-func notificate(message:String):
+func notificate(message:String, time:float):
+	notificate_fade = false
+	$GUI/notification/timer.start(time)
 	$GUI/notification/Label.text = message
 	$GUI/notification.modulate.a = 1
 
@@ -302,7 +309,7 @@ func _on_connect_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
-	get_parent().server_connect($multiplayer/ip.text)
+	Multiplayer.server_connect($multiplayer/ip.text)
 
 
 func _on_create_pressed():
@@ -312,7 +319,7 @@ func _on_create_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
-	get_parent().server_create()
+	Multiplayer.server_create()
 
 
 func _on_reset_score_pressed():
@@ -331,3 +338,7 @@ func change_weapon(id):
 	
 	current_weapon.transform = $Camera/grab_position.transform
 	current_weapon.visible = true
+
+
+func _on_notification_timer_timeout():
+	notificate_fade = true
