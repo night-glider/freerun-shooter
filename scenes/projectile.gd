@@ -20,23 +20,23 @@ func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:floa
 	scale.z = damage/15
 	scale *= scale_modifier
 	start_time = time
-	var diff = OS.get_system_time_msecs() - start_time
-	diff = 0
-	print(diff)
-	diff /= 16.66667
-	diff*=-1 #TODO Разобраться почему нужно умножать на -1
-	global_transform.origin = start_pos + velocity * diff + acceleration * (diff * diff)
-	
-	velocity -= acceleration * diff
+#	var diff = OS.get_system_time_msecs() - start_time
+#	diff = 0
+#	print(diff)
+#	diff /= 16.66667
+#	diff*=-1 #TODO Разобраться почему нужно умножать на -1
+#	global_transform.origin = start_pos + velocity * diff + acceleration * (diff * diff)
+#
+#	velocity -= acceleration * diff
 	
 	#TODO delete this
-	var test_point = preload("res://testing_point.tscn").instance()
-	test_point.global_transform.origin = start_trans.origin
-	Multiplayer.world.add_child(test_point)
-	
-	var test_point2 = preload("res://testing_point.tscn").instance()
-	test_point2.global_transform.origin = global_transform.origin
-	Multiplayer.world.add_child(test_point2)
+#	var test_point = preload("res://testing_point.tscn").instance()
+#	test_point.global_transform.origin = start_trans.origin
+#	Multiplayer.world.add_child(test_point)
+#
+#	var test_point2 = preload("res://testing_point.tscn").instance()
+#	test_point2.global_transform.origin = global_transform.origin
+#	Multiplayer.world.add_child(test_point2)
 	
 
 func _physics_process(delta):
@@ -64,12 +64,6 @@ func _physics_process(delta):
 func _on_Area_body_entered(body):
 	if body.is_in_group("friend"):
 		return
-	
-	#TODO DELTE THIS
-	var test_point = preload("res://testing_point.tscn").instance()
-	test_point.global_transform.origin = global_transform.origin
-	Multiplayer.world.add_child(test_point)
-	queue_free()
 
 func _on_Area_area_entered(area):
 	if area.is_in_group("enemy"):
@@ -79,9 +73,4 @@ func _on_Area_area_entered(area):
 
 
 func _on_Timer_timeout():
-	#TODO DELTE THIS
-	var test_point = preload("res://testing_point.tscn").instance()
-	test_point.global_transform.origin = global_transform.origin
-	Multiplayer.world.add_child(test_point)
-	
 	queue_free()
