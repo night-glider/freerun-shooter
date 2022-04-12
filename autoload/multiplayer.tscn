@@ -2,7 +2,10 @@
 
 [ext_resource path="res://autoload/multiplayer.gd" type="Script" id=1]
 
-[node name="Node" type="Node"]
+[node name="multiplayer_api" type="Node"]
 script = ExtResource( 1 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="win_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="win_timer" to="." method="_on_win_timer_timeout"]

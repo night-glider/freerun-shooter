@@ -67,6 +67,7 @@ wait_time = 0.1
 [node name="model" type="Spatial" parent="."]
 
 [node name="rifle" parent="model" instance=ExtResource( 1 )]
-transform = Transform( -2.18557e-08, 0, -1, 0, 0.6, 0, 0.5, 0, -4.37114e-08, 0, -0.527466, -0.107126 )
+transform = Transform( 0, 0, -1, 0, 0.6, 0, 0.5, 0, 0, 0, -0.527466, -0.107126 )
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

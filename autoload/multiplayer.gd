@@ -69,9 +69,13 @@ remotesync func _respawn():
 	else:
 		player.global_transform = spawn_client.global_transform
 
-#функция перезагрузки игры.
-func restart_game():
-	get_tree().reload_current_scene()
+#функция победы.
+#message - сообщение о победе
+func win(message:String):
+	notificate(message + "\nМатч будет перезапущен через 10 секунд", 5)
+	$win_timer.start(10)
+	pass
+
 
 #обработка события коннекта игрока
 func _player_connected(id):
@@ -91,10 +95,15 @@ remote func update_player_info(nickname:String, color:Color):
 	player.notificate( enemy_nickname + " Connected", 2)
 	pass
 
-#функция обновления трансформаций противника
+#rpc функция обновления трансформаций противника
 #trans - трансформация (origin, rotation, scale)
 remote func _set_pos(trans:Transform):
 	enemy.set_pos(trans)
+
+#rpc функция перезагрузки у ВСЕХ игроков.
+remotesync func restart_game():
+	get_tree().reload_current_scene()
+	call_deferred("_respawn")
 
 #функция создания снаряда
 #start - точка, из которой снаряд вылетел
@@ -110,3 +119,7 @@ remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, s
 	proj.init(start, accel, vel, scale_mod, damage, color, time)
 
 
+
+#перезапуск матча после выигрыша
+func _on_win_timer_timeout():
+	rpc("restart_game")

@@ -81,6 +81,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="hit_marker" type="Sprite" parent="crosshair/Control"]
 scale = Vector2( 2, 2 )

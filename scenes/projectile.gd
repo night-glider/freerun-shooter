@@ -36,8 +36,8 @@ func _physics_process(delta):
 	var test = $RayCast.get_collider()
 	
 	if test is PhysicsBody:
-		#print("collided with" + test.name)
-		_on_Area_body_entered(test)
+		if $RayCast.get_collision_point().distance_squared_to(global_transform.origin) < 5:
+			_on_Area_body_entered(test)
 	if test is Area:
 		#print("collided with" + test.name)
 		_on_Area_area_entered(test)
@@ -54,16 +54,13 @@ func _on_Area_body_entered(body):
 	if body.is_in_group("friend"):
 		return
 	
-	#Multiplayer.projectile_destroy_effect(global_transform)
 	queue_free()
-	#print("collided with " + body.name)
 
 func _on_Area_area_entered(area):
 	if area.is_in_group("enemy"):
-		get_parent().damage(damage)
+		Multiplayer.damage(damage)
+		Multiplayer.player.hit_marker()
 		queue_free()
-	#Multiplayer.projectile_destroy_effect(global_transform)
-	#print("collided with area")
 
 
 func _on_Timer_timeout():

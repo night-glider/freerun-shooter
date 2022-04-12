@@ -38,6 +38,10 @@ func _ready():
 	randomize()
 	
 	$background/change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
+	
+	if get_tree().network_peer != null:
+		$background.queue_free()
+		$multiplayer.queue_free()
 
 func _physics_process(delta):
 	var forward = transform.basis.z #базисный вектор по z относительно игрока
@@ -161,7 +165,7 @@ func _physics_process(delta):
 	recoil_offset = lerp(recoil_offset, recoil_offset_target, 0.1)
 	recoil_offset_target = lerp(recoil_offset_target, Vector3.ZERO, 0.1)
 	
-	cam_id.rotation_degrees.x = clamp(cam_id.rotation_degrees.x,-90,90)
+	cam_id.rotation_degrees.x = clamp(cam_id.rotation_degrees.x,-89,89)
 	
 	mouse_delta.y = 0
 	mouse_delta.x = 0
@@ -249,7 +253,10 @@ func restart():
 		hp = 100
 		vel = Vector3(0,0,0)
 		Multiplayer.pass_score()
-		Multiplayer.respawn()
+		
+		var message = Multiplayer.enemy_nickname + " Выиграл!"
+		Multiplayer.win(message)
+		global_transform.origin = Vector3(500,1,500)
 		return
 	
 	$card_choice.show()

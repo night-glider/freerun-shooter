@@ -69,7 +69,7 @@ wait_time = 0.5
 [node name="model" type="Spatial" parent="."]
 
 [node name="revolverA" parent="model" instance=ExtResource( 2 )]
-transform = Transform( 0, 1, -8.9407e-08, 3.83462e-07, -1.19209e-07, -1, -1, -2.08432e-14, -4.13265e-07, -0.027, -0.027, 0.006 )
+transform = Transform( -1.19209e-07, 1, -5.96046e-08, 1.78814e-07, -1.19209e-07, -1, -1, -5.96046e-08, -2.38419e-07, -0.027, -0.027, 0.016 )
 
 [node name="Spatial" type="Spatial" parent="model/revolverA"]
 transform = Transform( 1, 4.37114e-08, -6.3574e-08, -4.37114e-08, 1, 4.56955e-08, 3.37706e-08, -7.54976e-08, 1, -5.58794e-09, 0.0261812, 0.067434 )
@@ -77,4 +77,5 @@ transform = Transform( 1, 4.37114e-08, -6.3574e-08, -4.37114e-08, 1, 4.56955e-08
 [node name="revolverB" parent="model/revolverA/Spatial" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 1.07462e-15, 0, 1.07463e-15, 1, 0.337711, -0.0521829, -0.023219 )
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

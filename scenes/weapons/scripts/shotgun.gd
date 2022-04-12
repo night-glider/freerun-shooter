@@ -12,6 +12,7 @@ export var multiple_bullet_spread_type = 0 # 0 - horizontal, 1 - random
 export var recoil_factor_x = 20
 export var recoil_factor_y = 10
 export var cooldown_timer = 0.3
+export var reload_timer_modif = 1
 
 
 var ammo = max_ammo
@@ -74,10 +75,11 @@ func shoot():
 		$model.rotation_degrees.x = 5
 
 func reload():
-	$cooldown.start()
 	can_shoot = false
 	ammo = max_ammo
+	$AnimationPlayer.playback_speed = reload_timer_modif
 	$AnimationPlayer.play("reload")
+	$cooldown.stop()
 
 func _process(delta):
 	$model.translation = lerp($model.translation,Vector3.ZERO,0.1)
@@ -85,4 +87,7 @@ func _process(delta):
 
 
 func _on_cooldown_timeout():
+	can_shoot = true
+
+func _on_AnimationPlayer_animation_finished(anim_name:String):
 	can_shoot = true

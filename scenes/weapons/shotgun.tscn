@@ -68,6 +68,7 @@ wait_time = 0.3
 [node name="model" type="Spatial" parent="."]
 
 [node name="shotgun" parent="model" instance=ExtResource( 1 )]
-transform = Transform( -1.74846e-08, 0, 0.7, 1.39876e-07, 0.7, 1.06998e-14, -0.4, 2.44784e-07, -3.0598e-08, 0, -0.131168, 0.181814 )
+transform = Transform( 0, -4.9738e-15, 0.7, 6.99382e-08, 0.7, 4.9738e-15, -0.4, 1.22392e-07, 0, 0, -0.131168, 0.181814 )
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]
