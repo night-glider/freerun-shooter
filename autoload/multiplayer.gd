@@ -115,8 +115,10 @@ remotesync func restart_game():
 #time - POSIX время создания снаряда
 remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int):
 	var proj = preload("res://scenes/projectile.tscn").instance()
-	add_child(proj)
+	world.add_child(proj)
 	proj.init(start, accel, vel, scale_mod, damage, color, time)
+	
+	
 
 
 

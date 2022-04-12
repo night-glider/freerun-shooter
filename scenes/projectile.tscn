@@ -46,7 +46,6 @@ mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 10.0
 autostart = true
 
 [node name="RayCast" type="RayCast" parent="."]

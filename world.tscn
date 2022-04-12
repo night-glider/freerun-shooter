@@ -14,7 +14,6 @@ data = PoolVector3Array( 179.037, 12.8, -7.68, 153.6, 12.8, -7.68, 179.037, -0.0
 extents = Vector3( 100, 1, 100 )
 
 [node name="world" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7 )
 script = ExtResource( 3 )
 
 [node name="sun" type="DirectionalLight" parent="."]
