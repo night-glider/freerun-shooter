@@ -65,6 +65,7 @@ draw_pass_1 = SubResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.34295 )
 
 [node name="MeshInstance" type="MeshInstance" parent="shoot_here/projectile_pos"]
+visible = false
 mesh = SubResource( 7 )
 material/0 = null
 
