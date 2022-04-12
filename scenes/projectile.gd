@@ -6,9 +6,10 @@ var velocity:Vector3
 var start_time:int
 var damage:float
 var scale_modifier:float
+var owner_id:int = 0
 
 
-func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:float, dam:float, color:Color, time:int):
+func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:float, dam:float, color:Color, time:int, own:int):
 	global_transform = start_trans
 	start_pos = start_trans.origin
 	acceleration = accel
@@ -20,6 +21,7 @@ func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:floa
 	scale.z = damage/15
 	scale *= scale_modifier
 	start_time = time
+	owner_id = own
 #	var diff = OS.get_system_time_msecs() - start_time
 #	diff = 0
 #	print(diff)
@@ -66,6 +68,8 @@ func _on_Area_body_entered(body):
 		return
 
 func _on_Area_area_entered(area):
+	if owner_id != get_tree().get_network_unique_id():
+		return
 	if area.is_in_group("enemy"):
 		Multiplayer.damage(damage)
 		Multiplayer.player.hit_marker()

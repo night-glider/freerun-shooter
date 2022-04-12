@@ -115,10 +115,11 @@ remotesync func restart_game():
 #damage - урон
 #color - цвет
 #time - POSIX время создания снаряда
-remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int):
+#owner - network_id того, кто послал снаряд
+remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int, owner_id:int):
 	var proj = preload("res://scenes/projectile.tscn").instance()
 	world.add_child(proj)
-	proj.init(start, accel, vel, scale_mod, damage, color, time)
+	proj.init(start, accel, vel, scale_mod, damage, color, time, owner_id)
 
 
 #перезапуск матча после выигрыша
