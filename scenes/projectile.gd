@@ -21,6 +21,7 @@ func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:floa
 	scale *= scale_modifier
 	start_time = time
 	var diff = OS.get_system_time_msecs() - start_time
+	diff = 0
 	print(diff)
 	diff /= 16.66667
 	diff*=-1 #TODO Разобраться почему нужно умножать на -1
