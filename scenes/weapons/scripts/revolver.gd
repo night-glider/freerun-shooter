@@ -40,7 +40,7 @@ func shoot():
 		var accel = Vector3.UP*bullet_gravity
 		var color = get_parent().get_parent().color
 		var time = OS.get_system_time_msecs()
-		Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
+		Multiplayer.rpc_unreliable("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time)
 		bullet_count-=1
 		
 		#shoot remaining bullets
