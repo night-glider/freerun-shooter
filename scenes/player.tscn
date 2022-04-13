@@ -21,7 +21,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[node name="player" type="KinematicBody"]
+[node name="player" type="KinematicBody" groups=["friend"]]
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -132,27 +132,15 @@ __meta__ = {
 margin_top = 35.0
 margin_right = 238.0
 margin_bottom = 235.0
-text = "H - toggle additional info
-LMB - shoot
-RMB - aim
-SPACE - jump
-R - reload
-W - wallrun
-1 - revolver
-2 - shotgun
-3 - rifle
-ESC - show cursor
-F11 - fullscreen
+text = "H - показать/скрыть эту информацию
+LMB - стрельба
+RMB - прицеливание
+SPACE - прыжок
+R - Перезарядка
+W - бег по стенам
+ESC - меню/выйти из игры
+F11 - полный экран
 "
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="reset_score" type="Button" parent="debug_info"]
-margin_top = 280.307
-margin_right = 104.0
-margin_bottom = 305.307
-text = "reset score"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -331,6 +319,7 @@ __meta__ = {
 }
 
 [node name="notification" type="ColorRect" parent="GUI"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 0.3
@@ -349,12 +338,14 @@ valign = 1
 [node name="timer" type="Timer" parent="GUI/notification"]
 one_shot = true
 
-[node name="ping_button" type="Button" parent="GUI"]
-margin_left = 8.0
-margin_top = 329.0
-margin_right = 48.0
-margin_bottom = 350.0
-text = "ping"
+[node name="quit_game" type="Button" parent="GUI"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+grow_horizontal = 2
+text = "Выйти из игры"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -369,6 +360,11 @@ __meta__ = {
 }
 
 [node name="change_weapon" type="MenuButton" parent="background"]
+anchor_left = 0.4
+anchor_top = 0.2
+anchor_right = 0.6
+anchor_bottom = 0.2
+margin_top = 10.0
 text = "Оружие"
 flat = false
 items = [ "Revolver", null, 0, false, false, 0, 0, null, "", false, "Shotgun", null, 0, false, false, 1, 0, null, "", false, "Rifle", null, 0, false, false, 2, 0, null, "", false ]
@@ -387,10 +383,10 @@ __meta__ = {
 }
 
 [node name="ip" type="LineEdit" parent="multiplayer"]
-anchor_left = 0.4
 anchor_top = 0.5
-anchor_right = 0.6
+anchor_right = 0.2
 anchor_bottom = 0.5
+margin_left = 10.0
 margin_bottom = 24.0
 text = "127.0.0.1"
 __meta__ = {
@@ -398,36 +394,22 @@ __meta__ = {
 }
 
 [node name="connect" type="Button" parent="multiplayer"]
-anchor_left = 0.4
 anchor_top = 0.5
-anchor_right = 0.6
+anchor_right = 0.2
 anchor_bottom = 0.5
+margin_left = 10.0
 margin_top = 33.713
 margin_bottom = 58.713
-text = "connect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="create" type="Button" parent="multiplayer"]
-anchor_left = 0.4
-anchor_top = 0.5
-anchor_right = 0.6
-anchor_bottom = 0.5
-margin_top = 65.8385
-margin_bottom = 90.8385
-text = "create"
+text = "подключиться"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="multiplayer"]
 anchor_left = 0.4
-anchor_top = 0.5
+anchor_top = 0.15
 anchor_right = 0.6
-anchor_bottom = 0.5
-margin_top = -50.0
-margin_bottom = -10.0
+anchor_bottom = 0.2
 grow_vertical = 0
 color = Color( 0.12549, 1, 0, 1 )
 edit_alpha = false
@@ -437,11 +419,9 @@ __meta__ = {
 
 [node name="nickname" type="LineEdit" parent="multiplayer"]
 anchor_left = 0.4
-anchor_top = 0.5
+anchor_top = 0.1
 anchor_right = 0.6
-anchor_bottom = 0.5
-margin_top = -85.0
-margin_bottom = -60.0
+anchor_bottom = 0.15
 text = "test_nick"
 align = 1
 max_length = 20
@@ -453,10 +433,12 @@ __meta__ = {
 }
 
 [node name="server_settings" type="GridContainer" parent="multiplayer"]
-anchor_left = 0.65
+anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -10.0
+grow_horizontal = 0
 columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -464,18 +446,27 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="multiplayer/server_settings"]
 margin_top = 5.0
-margin_right = 109.0
+margin_right = 112.0
 margin_bottom = 20.0
 text = "Кол-во раундов: "
 
-[node name="SpinBox" type="SpinBox" parent="multiplayer/server_settings"]
-margin_left = 113.0
-margin_right = 187.0
+[node name="rounds_count" type="SpinBox" parent="multiplayer/server_settings"]
+margin_left = 116.0
+margin_right = 190.0
 margin_bottom = 25.0
 min_value = 3.0
 max_value = 20.0
 value = 5.0
 align = 1
+
+[node name="create" type="Button" parent="multiplayer/server_settings"]
+margin_top = 29.0
+margin_right = 112.0
+margin_bottom = 50.0
+text = "Создать сервер"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="card_choice" type="Control" parent="."]
 visible = false
@@ -605,11 +596,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="debug_info/reset_score" to="." method="_on_reset_score_pressed"]
 [connection signal="timeout" from="GUI/notification/timer" to="." method="_on_notification_timer_timeout"]
-[connection signal="pressed" from="GUI/ping_button" to="." method="_on_ping_button_pressed"]
+[connection signal="pressed" from="GUI/quit_game" to="." method="_on_quit_game_pressed"]
 [connection signal="pressed" from="multiplayer/connect" to="." method="_on_connect_pressed"]
-[connection signal="pressed" from="multiplayer/create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="multiplayer/server_settings/create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="card_choice/card1/Button" to="card_choice" method="_on_card1_pressed"]
 [connection signal="pressed" from="card_choice/card2/Button" to="card_choice" method="_on_card2_pressed"]
 [connection signal="pressed" from="card_choice/card3/Button" to="card_choice" method="_on_card3_pressed"]

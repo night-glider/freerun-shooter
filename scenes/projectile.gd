@@ -66,6 +66,7 @@ func _physics_process(delta):
 func _on_Area_body_entered(body):
 	if body.is_in_group("friend"):
 		return
+	queue_free()
 
 func _on_Area_area_entered(area):
 	if owner_id != get_tree().get_network_unique_id():

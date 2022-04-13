@@ -34,7 +34,7 @@ func shoot():
 		var trans:Transform = $shoot_here/projectile_pos.global_transform
 		var velocity:Vector3 = -$shoot_here/projectile_pos.global_transform.basis.z * bullet_spd
 		var accel = Vector3.UP*bullet_gravity
-		var color = get_parent().get_parent().color
+		var color = Multiplayer.color
 		var time = OS.get_system_time_msecs()
 		var owner_id = get_tree().get_network_unique_id()
 		Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time, owner_id)
@@ -54,7 +54,7 @@ func shoot():
 				trans = $shoot_here/projectile_pos.global_transform
 				velocity = -$shoot_here/projectile_pos.global_transform.basis.z * bullet_spd
 				accel = Vector3.UP*bullet_gravity
-				color = get_parent().get_parent().color
+				color = Multiplayer.color
 				time = OS.get_system_time_msecs()
 				Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time, owner_id)
 		if multiple_bullet_spread_type == 1:
@@ -65,7 +65,7 @@ func shoot():
 				trans = $shoot_here/projectile_pos.global_transform
 				velocity = -$shoot_here/projectile_pos.global_transform.basis.z * bullet_spd
 				accel = Vector3.UP*bullet_gravity
-				color = get_parent().get_parent().color
+				color = Multiplayer.color
 				time = OS.get_system_time_msecs()
 				Multiplayer.rpc("create_projectile",trans, accel, velocity, bullet_scale_modifier, damage, color, time, owner_id)
 		

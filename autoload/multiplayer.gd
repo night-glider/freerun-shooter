@@ -1,8 +1,10 @@
 extends Node
 var network_active = false
 var peer:NetworkedMultiplayerENet
+var color := Color.green
+var nickname = "EMPTY NICK"
 var enemy_nickname = "EMPTY NICKNAME"
-var max_rounds = 5
+var max_rounds:int = 5
 
 var last_time:int
 
@@ -18,8 +20,9 @@ func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
 func _process(delta):
-	if network_active:
-		rpc_unreliable("_set_pos", player.transform)
+	if get_tree().has_network_peer():
+		if get_tree().get_network_connected_peers().size() >= 1:
+			rpc_unreliable("_set_pos", player.transform)
 
 #функция создания сервера
 func server_create():
@@ -29,7 +32,10 @@ func server_create():
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_server(6969, 10)
 	get_tree().network_peer = peer
-	print(get_tree().get_network_unique_id())
+	_respawn()
+	print("server created\nNetwork_id:", get_tree().get_network_unique_id())
+	print("My_Nick: ", Multiplayer.nickname)
+	print("My_Color: ", Multiplayer.color)
 
 #функция подключения к серверу
 #ip - ip адрес
@@ -39,7 +45,10 @@ func server_connect(ip:String):
 	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_client(ip, 6969)
 	get_tree().network_peer = peer
-	print(get_tree().get_network_unique_id())
+	_respawn()
+	print("connecting to server with ip ", ip,"\nNetwork_id: ",get_tree().get_network_unique_id())
+	print("My_Nick: ", Multiplayer.nickname)
+	print("My_Color: ", Multiplayer.color)
 
 #функция показа одного сообщения у всех игроков
 #message - текст сообщения
@@ -48,6 +57,7 @@ func notificate(message:String, time:float):
 	rpc("_notificate", message, time)
 remotesync func _notificate(message:String, time:float):
 	player.notificate(message, time)
+	print(message)
 
 #функция нанесения урона. ВНИМАНИЕ: урон нанесётся ВСЕМ игрокам, кроме того, кто вызывал функцию
 #damage - кол-во урона
@@ -61,11 +71,14 @@ func pass_score():
 	rpc("_score")
 remote func _score():
 	player.get_score()
+	print( "+1 score to ", nickname)
 
 #функция респавна ВСЕХ игроков. Хост и клиент респавнятся в заранее заготовленных точках.
 func respawn():
 	rpc("_respawn")
 remotesync func _respawn():
+	player.hp = 100
+	player.can_control = true
 	if get_tree().get_network_unique_id() == 1:
 		player.global_transform = spawn_host.global_transform
 	else:
@@ -81,20 +94,24 @@ func win(message:String):
 
 #обработка события коннекта игрока
 func _player_connected(id):
-	rpc("update_player_info", player.nickname, player.color)
+	rpc("update_player_info", nickname, color, max_rounds)
 	network_active = true
 
 #обработка события дисконекта игрока
 func _player_disconnected(id):
+	network_active = false
 	player.notificate( enemy_nickname + " Disconnected", 2 )
+	print( enemy_nickname + " Disconnected" )
 
 #rpc функция обновления данных игрока
-#nickname - никнейм игрока
-#color - цвет игрока
-remote func update_player_info(nickname:String, color:Color):
-	enemy_nickname = nickname
-	enemy.change_color(color)
+#nick - никнейм игрока
+#col - цвет игрока
+remote func update_player_info(nick:String, col:Color, rounds:int):
+	enemy_nickname = nick
+	enemy.change_color(col)
+	max_rounds = rounds
 	player.notificate( enemy_nickname + " Connected", 2)
+	ping()
 	pass
 
 #rpc функция обновления трансформаций противника
@@ -106,6 +123,7 @@ remote func _set_pos(trans:Transform):
 remotesync func restart_game():
 	get_tree().reload_current_scene()
 	call_deferred("_respawn")
+	print("Match restarted")
 
 #функция создания снаряда
 #start - точка, из которой снаряд вылетел
@@ -116,10 +134,10 @@ remotesync func restart_game():
 #color - цвет
 #time - POSIX время создания снаряда
 #owner - network_id того, кто послал снаряд
-remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, color:Color, time:int, owner_id:int):
+remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, col:Color, time:int, owner_id:int):
 	var proj = preload("res://scenes/projectile.tscn").instance()
 	world.add_child(proj)
-	proj.init(start, accel, vel, scale_mod, damage, color, time, owner_id)
+	proj.init(start, accel, vel, scale_mod, damage, col, time, owner_id)
 
 
 #перезапуск матча после выигрыша
@@ -129,9 +147,9 @@ func _on_win_timer_timeout():
 #проверка пинга
 func ping():
 	last_time = OS.get_system_time_msecs()
-	rpc_unreliable("_ping_send")
+	rpc("_ping_send")
 remote func _ping_send():
-	rpc_unreliable("_ping_receive")
+	rpc("_ping_receive")
 remote func _ping_receive():
 	var diff = OS.get_system_time_msecs() - last_time
-	OS.alert(str(diff))
+	print("Ping: ~" + str(diff)+"ms")

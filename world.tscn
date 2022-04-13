@@ -23,7 +23,7 @@ light_indirect_energy = 13.42
 shadow_enabled = true
 directional_shadow_max_distance = 200.0
 
-[node name="player" parent="." groups=["friend"] instance=ExtResource( 2 )]
+[node name="player" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18.104, 9 )
 
 [node name="enemy" parent="." groups=["enemy"] instance=ExtResource( 7 )]
@@ -53,10 +53,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -71, 0.5, 38 )
 [node name="spawnpoints" type="Spatial" parent="."]
 
 [node name="host" type="Spatial" parent="spawnpoints"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 133, 1, 7 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 133, 1, 7 )
 
 [node name="client" type="Spatial" parent="spawnpoints"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -132, 1, 7 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -132, 1, 7 )
 
 [node name="StaticBody" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 0, 500 )

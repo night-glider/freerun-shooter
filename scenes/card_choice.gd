@@ -61,16 +61,16 @@ func close():
 func _on_card1_pressed():
 	close()
 	call(card1)
-	Multiplayer.notificate(get_parent().nickname + " picked " + str(cards[card1]["name"]), 2)
+	Multiplayer.notificate(Multiplayer.nickname + " взял " + str(cards[card1]["name"]), 2)
 
 
 func _on_card2_pressed():
 	close()
 	call(card2)
-	Multiplayer.notificate(get_parent().nickname + " picked" + str(cards[card2]["name"]), 2)
+	Multiplayer.notificate(Multiplayer.nickname + " взял " + str(cards[card2]["name"]), 2)
 
 
 func _on_card3_pressed():
 	close()
 	call(card3)
-	Multiplayer.notificate(get_parent().nickname + " picked" + str(cards[card3]["name"]), 2)
+	Multiplayer.notificate(Multiplayer.nickname + " взял " + str(cards[card3]["name"]), 2)

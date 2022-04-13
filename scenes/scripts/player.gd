@@ -3,6 +3,7 @@ extends KinematicBody
 #состояния
 enum {IDLE, RUN, WALL_RUN, FALLING}
 var state = IDLE
+var can_control = false
 
 var start_spd = 10 #стартовая скорость
 var max_spd = 35 #максимальная скорость
@@ -18,8 +19,7 @@ var doublejump_spd = 0.01
 var recoil_offset = Vector3.ZERO #это значение прибавляется к текущей ротации камеры.
 var recoil_offset_target = Vector3.ZERO
 
-onready var color = $multiplayer/ColorPickerButton.color
-var nickname = "EMPTY NICK"
+
 var notificate_fade = true
 var current_weapon
 
@@ -32,6 +32,8 @@ var shake_diff = 0
 var cam_id
 
 func _ready():
+	$multiplayer/nickname.text = Multiplayer.nickname
+	$multiplayer/ColorPickerButton.color = Multiplayer.color
 	cam_id = $Camera
 	current_weapon = $Camera/revolver
 	
@@ -40,10 +42,13 @@ func _ready():
 	$background/change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
 	
 	if get_tree().network_peer != null:
+		Multiplayer.call_deferred( "_respawn" )
 		$background.queue_free()
 		$multiplayer.queue_free()
 
 func _physics_process(delta):
+	if not can_control:
+		return
 	var forward = transform.basis.z #базисный вектор по z относительно игрока
 	var right = transform.basis.x #базисный вектор по x относительно игрока
 	var is_on_floor = $RayCast.is_colliding() or is_on_floor()
@@ -174,6 +179,8 @@ func _physics_process(delta):
 	can_doublejump = clamp(can_doublejump+doublejump_spd, 0, 1)
 	
 func _process(delta):
+	if not can_control:
+		return
 	#встряска камеры
 	$Camera.h_offset = rand_range(-shake_intensity,shake_intensity)
 	$Camera.v_offset = rand_range(-shake_intensity,shake_intensity)
@@ -224,8 +231,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("mouse_mode"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			$GUI/quit_game.visible = true
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			$GUI/quit_game.visible = false
 	"""
 	if Input.is_action_just_pressed("ui_up"):
 		translation.y += 10
@@ -249,6 +258,8 @@ func _input(event):
 
 func restart():
 	enemy_score += 1
+	global_transform.origin = Vector3(500,1,500)
+	can_control = false
 	if enemy_score >= Multiplayer.max_rounds:
 		hp = 100
 		vel = Vector3(0,0,0)
@@ -256,7 +267,7 @@ func restart():
 		
 		var message = Multiplayer.enemy_nickname + " Выиграл!"
 		Multiplayer.win(message)
-		global_transform.origin = Vector3(500,1,500)
+		
 		return
 	
 	$card_choice.show()
@@ -264,9 +275,6 @@ func restart():
 	vel = Vector3(0,0,0)
 	Multiplayer.pass_score()
 	current_weapon.ammo = current_weapon.max_ammo
-	
-	global_transform.origin = Vector3(500,1,500)
-	
 
 func notificate(message:String, time:float):
 	notificate_fade = false
@@ -284,7 +292,7 @@ func take_hit(damage):
 
 func get_score():
 	score+=1
-	hp = clamp(hp+50, 0, 100)
+	hp = 100
 	$GUI/score_indicator.color.a = 0.25
 
 func hit_marker():
@@ -310,8 +318,8 @@ func sync_stats():
 
 
 func _on_connect_pressed():
-	nickname = $multiplayer/nickname.text
-	color = $multiplayer/ColorPickerButton.color
+	Multiplayer.nickname = $multiplayer/nickname.text
+	Multiplayer.color = $multiplayer/ColorPickerButton.color
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
@@ -320,18 +328,15 @@ func _on_connect_pressed():
 
 
 func _on_create_pressed():
-	nickname = $multiplayer/nickname.text
-	color = $multiplayer/ColorPickerButton.color
+	Multiplayer.nickname = $multiplayer/nickname.text
+	Multiplayer.color = $multiplayer/ColorPickerButton.color
+	Multiplayer.max_rounds = $multiplayer/server_settings/rounds_count.value
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
 	Multiplayer.server_create()
 
-
-func _on_reset_score_pressed():
-	score = 0
-	enemy_score = 0
 
 func change_weapon(id):
 	current_weapon.visible = false
@@ -351,5 +356,8 @@ func _on_notification_timer_timeout():
 	notificate_fade = true
 
 
-func _on_ping_button_pressed():
-	Multiplayer.ping()
+func _on_quit_game_pressed():
+	Multiplayer.peer.close_connection()
+	Multiplayer.peer = null
+	get_tree().network_peer = null
+	get_tree().reload_current_scene()
