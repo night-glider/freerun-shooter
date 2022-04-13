@@ -1,13 +1,13 @@
 extends Spatial
 #generic gun properties
-export var max_ammo = 22
-export var damage = 10 #damage of 1 bullet
+export var max_ammo = 14
+export var damage = 18 #damage of 1 bullet
 export var bullet_spd = 1
-export var bullet_gravity = 0.01
+var bullet_gravity = 0.005
 export var bullet_scale_modifier = 3
 export var spread = 1 #spread in grades
-export var multiple_bullet_count = 10
-export var multiple_bullet_angle = 10 #angle between bullets in grades
+export var multiple_bullet_count = 6
+export var multiple_bullet_angle:float = 7 #angle between bullets in grades
 export var multiple_bullet_spread_type = 0 # 0 - horizontal, 1 - random
 export var recoil_factor_x = 20
 export var recoil_factor_y = 10

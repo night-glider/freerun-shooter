@@ -6,11 +6,11 @@ var state = IDLE
 var can_control = false
 
 var start_spd = 10 #стартовая скорость
-var max_spd = 35 #максимальная скорость
+var max_spd = 25 #максимальная скорость
 var spd = 10 #текущая скорость
-var mouse_sensitivity = 0.1 #чувствительность мыши
 var vel = Vector3(0,0,0) #вектор движения
 var mouse_delta = Vector2() #хранит в себе перемещение мышки
+var max_hp = 100 #максимальное hp
 var hp = 100 #хп игрока
 var score = 0 #очки
 var enemy_score = 0 #очки оппонента
@@ -161,8 +161,8 @@ func _physics_process(delta):
 		spd = clamp(test.length(), start_spd, 999)
 	
 	#поворот камеры мышкой
-	cam_base_rotation.x -= mouse_delta.y * mouse_sensitivity
-	rotation_degrees.y -= mouse_delta.x * mouse_sensitivity
+	cam_base_rotation.x -= mouse_delta.y * Multiplayer.mouse_sensitivity
+	rotation_degrees.y -= mouse_delta.x * Multiplayer.mouse_sensitivity
 	
 	#компенсация отдачи
 	cam_id.rotation_degrees = cam_base_rotation + recoil_offset
@@ -190,7 +190,7 @@ func _process(delta):
 	$crosshair/Control/hit_marker.modulate.a-=0.1
 	$GUI/damage_indicator.modulate.a = lerp($GUI/damage_indicator.modulate.a, 0, 0.05)
 	$GUI/score_indicator.color.a = lerp($GUI/score_indicator.color.a, 0, 0.1)
-	mouse_sensitivity = $debug_info/mouse_sens.value
+	Multiplayer.mouse_sensitivity = $debug_info/mouse_sens.value
 	
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -261,7 +261,7 @@ func restart():
 	global_transform.origin = Vector3(500,1,500)
 	can_control = false
 	if enemy_score >= Multiplayer.max_rounds:
-		hp = 100
+		hp = max_hp
 		vel = Vector3(0,0,0)
 		Multiplayer.pass_score()
 		
@@ -271,7 +271,7 @@ func restart():
 		return
 	
 	$card_choice.show()
-	hp = 100
+	hp = max_hp
 	vel = Vector3(0,0,0)
 	Multiplayer.pass_score()
 	current_weapon.ammo = current_weapon.max_ammo
@@ -292,7 +292,7 @@ func take_hit(damage):
 
 func get_score():
 	score+=1
-	hp = 100
+	hp = max_hp
 	$GUI/score_indicator.color.a = 0.25
 
 func hit_marker():

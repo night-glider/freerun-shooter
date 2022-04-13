@@ -24,7 +24,7 @@ shadow_enabled = true
 directional_shadow_max_distance = 200.0
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18.104, 9 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.104, 9 )
 
 [node name="enemy" parent="." groups=["enemy"] instance=ExtResource( 7 )]
 

@@ -6,7 +6,10 @@ var nickname = "EMPTY NICK"
 var enemy_nickname = "EMPTY NICKNAME"
 var max_rounds:int = 5
 
+var mouse_sensitivity = 0.1
+
 var last_time:int
+
 
 ###узлы
 var world:Spatial
@@ -77,7 +80,7 @@ remote func _score():
 func respawn():
 	rpc("_respawn")
 remotesync func _respawn():
-	player.hp = 100
+	player.hp = player.max_hp
 	player.can_control = true
 	if get_tree().get_network_unique_id() == 1:
 		player.global_transform = spawn_host.global_transform
