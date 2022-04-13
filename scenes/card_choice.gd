@@ -172,9 +172,9 @@ func show():
 	$card3/RichTextLabel.bbcode_text = cards[card3]["name"] + "\n" + cards[card3]["description"]
 
 func _process(delta):
-	$card1/RichTextLabel.percent_visible = lerp($card1/RichTextLabel.percent_visible, 1, 0.1)
-	$card2/RichTextLabel.percent_visible = lerp($card2/RichTextLabel.percent_visible, 1, 0.1)
-	$card3/RichTextLabel.percent_visible = lerp($card3/RichTextLabel.percent_visible, 1, 0.1)
+	$card1/RichTextLabel.percent_visible = lerp($card1/RichTextLabel.percent_visible, 1.1, 0.1)
+	$card2/RichTextLabel.percent_visible = lerp($card2/RichTextLabel.percent_visible, 1.1, 0.1)
+	$card3/RichTextLabel.percent_visible = lerp($card3/RichTextLabel.percent_visible, 1.1, 0.1)
 
 func close():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

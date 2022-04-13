@@ -34,6 +34,7 @@ var cam_id
 func _ready():
 	$multiplayer/nickname.text = Multiplayer.nickname
 	$multiplayer/ColorPickerButton.color = Multiplayer.color
+	$debug_info/mouse_sens.value = Multiplayer.mouse_sensitivity
 	cam_id = $Camera
 	current_weapon = $Camera/revolver
 	
@@ -179,8 +180,7 @@ func _physics_process(delta):
 	can_doublejump = clamp(can_doublejump+doublejump_spd, 0, 1)
 	
 func _process(delta):
-	if not can_control:
-		return
+	
 	#встряска камеры
 	$Camera.h_offset = rand_range(-shake_intensity,shake_intensity)
 	$Camera.v_offset = rand_range(-shake_intensity,shake_intensity)
@@ -213,17 +213,7 @@ func _process(delta):
 #		current_weapon.transform = $Camera/grab_position.transform
 #		current_weapon.visible = true
 	
-	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
-		current_weapon.reload()
 	
-	if Input.is_action_pressed("RMB"):
-		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
-	else:
-		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
-	
-	
-	if Input.is_action_pressed("LMB"):
-		current_weapon.shoot()
 	
 	if Input.is_action_just_pressed("debug"):
 		$debug_info.visible = not $debug_info.visible
@@ -249,6 +239,19 @@ func _process(delta):
 	if notificate_fade:
 		$GUI/notification.modulate.a -= 0.01
 	
+	if not can_control:
+		return
+	
+	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
+		current_weapon.reload()
+	
+#	if Input.is_action_pressed("RMB"):
+#		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
+#	else:
+#		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
+	
+	if Input.is_action_pressed("LMB"):
+		current_weapon.shoot()
 	
 	
 func _input(event):
