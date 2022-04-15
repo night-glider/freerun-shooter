@@ -181,6 +181,8 @@ func _physics_process(delta):
 	
 func _process(delta):
 	
+	
+	
 	#встряска камеры
 	$Camera.h_offset = rand_range(-shake_intensity,shake_intensity)
 	$Camera.v_offset = rand_range(-shake_intensity,shake_intensity)
@@ -213,7 +215,10 @@ func _process(delta):
 #		current_weapon.transform = $Camera/grab_position.transform
 #		current_weapon.visible = true
 	
-	
+	if Input.is_action_pressed("RMB"):
+		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
+	else:
+		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
 	
 	if Input.is_action_just_pressed("debug"):
 		$debug_info.visible = not $debug_info.visible
@@ -245,10 +250,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("reload") and not Input.is_action_pressed("RMB"):
 		current_weapon.reload()
 	
-#	if Input.is_action_pressed("RMB"):
-#		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
-#	else:
-#		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
+
 	
 	if Input.is_action_pressed("LMB"):
 		current_weapon.shoot()
