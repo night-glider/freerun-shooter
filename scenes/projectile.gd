@@ -31,14 +31,6 @@ func init(start_trans:Transform, accel:Vector3, vel:Vector3, scale_modifier:floa
 #
 #	velocity -= acceleration * diff
 	
-	#TODO delete this
-#	var test_point = preload("res://testing_point.tscn").instance()
-#	test_point.global_transform.origin = start_trans.origin
-#	Multiplayer.world.add_child(test_point)
-#
-#	var test_point2 = preload("res://testing_point.tscn").instance()
-#	test_point2.global_transform.origin = global_transform.origin
-#	Multiplayer.world.add_child(test_point2)
 	
 
 func _physics_process(delta):
@@ -52,12 +44,7 @@ func _physics_process(delta):
 		if $RayCast.get_collision_point().distance_squared_to(global_transform.origin) < 5:
 			_on_Area_body_entered(test)
 	if test is Area:
-		#print("collided with" + test.name)
 		_on_Area_area_entered(test)
-	if test == null:
-		pass
-		
-		#print("null")
 	
 	global_transform.origin += velocity
 	velocity-=acceleration

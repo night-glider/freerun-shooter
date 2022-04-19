@@ -165,7 +165,6 @@ func show():
 	card1 = cards_array[0]
 	card2 = cards_array[1]
 	card3 = cards_array[2]
-	#card3 = "card16"
 	
 	$card1/RichTextLabel.bbcode_text = cards[card1]["name"] + "\n" + cards[card1]["description"]
 	$card2/RichTextLabel.bbcode_text = cards[card2]["name"] + "\n" + cards[card2]["description"]

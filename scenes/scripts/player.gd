@@ -104,9 +104,6 @@ func _physics_process(delta):
 		vel+=input_vel * -spd
 	
 	if state == FALLING:
-		var test_var = Vector2(vel.x, vel.z)
-		#vel.x = lerp(vel.x, input_vel.x * -test_var.length(), 0.1)
-		#vel.z = lerp(vel.z, input_vel.z * -test_var.length(), 0.1)
 		vel.x = lerp(vel.x, input_vel.x * -spd, 0.1)
 		vel.z = lerp(vel.z, input_vel.z * -spd, 0.1)
 	
@@ -117,20 +114,12 @@ func _physics_process(delta):
 	#двойной прыжок
 	if state == FALLING and can_doublejump==1 and Input.is_action_just_pressed("jump"):
 		vel.y = 12
-		#spd*=1.2
 		spd += 4
 		can_doublejump = 0
 		shake_camera(0.02, 20)
 	
-	#толкание в стену
-	#if state == WALL_RUN:
-		#pass
-		#vel += get_slide_collision(0).normal * -(2)
-		#move_and_slide(get_slide_collision(0).normal * -(vel.length()), Vector3(0,1,0))
-	
 	#прыжок от стены
 	if state == WALL_RUN and Input.is_action_just_pressed("jump"):
-		#spd*=1.2
 		spd += 4
 		vel = forward * -spd
 		vel.y = 9
