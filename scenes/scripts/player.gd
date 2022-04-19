@@ -34,16 +34,20 @@ var cam_id
 func _ready():
 	$multiplayer/nickname.text = Multiplayer.nickname
 	$multiplayer/ColorPickerButton.color = Multiplayer.color
+	$multiplayer/ip.text = Multiplayer.connect_ip
+	$multiplayer/server_settings/rounds_count.value = Multiplayer.max_rounds
 	$debug_info/mouse_sens.value = Multiplayer.mouse_sensitivity
 	cam_id = $Camera
 	current_weapon = $Camera/revolver
+	change_weapon(Multiplayer.weapon)
 	
 	randomize()
 	
-	$background/change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
+	$change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
 	
 	if get_tree().network_peer != null:
 		Multiplayer.call_deferred( "_respawn" )
+		$change_weapon.visible = false
 		$background.queue_free()
 		$multiplayer.queue_free()
 
@@ -180,7 +184,9 @@ func _physics_process(delta):
 	can_doublejump = clamp(can_doublejump+doublejump_spd, 0, 1)
 	
 func _process(delta):
-	
+	#показ выбора оружия при конце матча
+	if enemy_score >= Multiplayer.max_rounds or score >= Multiplayer.max_rounds:
+		$change_weapon.visible = true
 	
 	
 	#встряска камеры
@@ -269,6 +275,7 @@ func restart():
 		hp = max_hp
 		vel = Vector3(0,0,0)
 		Multiplayer.pass_score()
+		$change_weapon.visible = true
 		
 		var message = Multiplayer.enemy_nickname + " Выиграл!"
 		Multiplayer.win(message)
@@ -323,12 +330,14 @@ func sync_stats():
 
 
 func _on_connect_pressed():
+	Multiplayer.connect_ip = $multiplayer/ip.text
 	Multiplayer.nickname = $multiplayer/nickname.text
 	Multiplayer.color = $multiplayer/ColorPickerButton.color
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
+	$change_weapon.visible = false
 	Multiplayer.server_connect($multiplayer/ip.text)
 
 
@@ -340,10 +349,12 @@ func _on_create_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$background.queue_free()
 	$multiplayer.queue_free()
+	$change_weapon.visible = false
 	Multiplayer.server_create()
 
 
 func change_weapon(id):
+	Multiplayer.weapon = id
 	current_weapon.visible = false
 	match id:
 		0:

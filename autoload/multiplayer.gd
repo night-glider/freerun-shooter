@@ -1,15 +1,15 @@
 extends Node
-var network_active = false
 var peer:NetworkedMultiplayerENet
 var color := Color.green
 var nickname = "EMPTY NICK"
 var enemy_nickname = "EMPTY NICKNAME"
 var max_rounds:int = 5
+var connect_ip:String = "127.0.0.1"
+var weapon = 0
 
 var mouse_sensitivity = 0.1
 
 var last_time:int
-
 
 ###узлы
 var world:Spatial
@@ -80,6 +80,8 @@ remote func _score():
 func respawn():
 	rpc("_respawn")
 remotesync func _respawn():
+	player.spd = player.start_spd
+	player.current_weapon.ammo = player.current_weapon.max_ammo
 	player.hp = player.max_hp
 	player.can_control = true
 	if get_tree().get_network_unique_id() == 1:
@@ -97,25 +99,31 @@ func win(message:String):
 
 #обработка события коннекта игрока
 func _player_connected(id):
-	rpc("update_player_info", nickname, color, max_rounds)
-	network_active = true
+	rpc("update_player_info", nickname, color)
+	#если я сервер, то отправляю данные о матче
+	if get_tree().get_network_unique_id() == 1:
+		rpc("update_server_info", max_rounds)
 
 #обработка события дисконекта игрока
 func _player_disconnected(id):
-	network_active = false
 	player.notificate( enemy_nickname + " Disconnected", 2 )
 	print( enemy_nickname + " Disconnected" )
 
 #rpc функция обновления данных игрока
 #nick - никнейм игрока
 #col - цвет игрока
-remote func update_player_info(nick:String, col:Color, rounds:int):
+remote func update_player_info(nick:String, col:Color):
 	enemy_nickname = nick
 	enemy.change_color(col)
-	max_rounds = rounds
 	player.notificate( enemy_nickname + " Connected", 2)
 	ping()
 	pass
+
+#rpc функция обновления данных о матче
+#round_count - максимальное кол-во раундов
+remote func update_server_info(round_count:int):
+	max_rounds = round_count
+
 
 #rpc функция обновления трансформаций противника
 #trans - трансформация (origin, rotation, scale)
@@ -135,7 +143,7 @@ remotesync func restart_game():
 #scale_mod - коэффицент размера
 #damage - урон
 #color - цвет
-#time - POSIX время создания снаряда
+#time - UNIX время создания снаряда
 #owner - network_id того, кто послал снаряд
 remotesync func create_projectile(start:Transform, accel:Vector3, vel:Vector3, scale_mod:float, damage:float, col:Color, time:int, owner_id:int):
 	var proj = preload("res://scenes/projectile.tscn").instance()
