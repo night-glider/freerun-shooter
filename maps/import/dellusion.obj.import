@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/dellusion.obj-0e9a95c5623c950529164eb012ef2d68.mesh"
+
+[deps]
+
+files=[ "res://.import/dellusion.obj-0e9a95c5623c950529164eb012ef2d68.mesh" ]
+
+source_file="res://maps/import/dellusion.obj"
+dest_files=[ "res://.import/dellusion.obj-0e9a95c5623c950529164eb012ef2d68.mesh", "res://.import/dellusion.obj-0e9a95c5623c950529164eb012ef2d68.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 4, 4, 4 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

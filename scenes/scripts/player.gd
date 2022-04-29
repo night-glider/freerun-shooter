@@ -44,6 +44,7 @@ func _ready():
 	randomize()
 	
 	$change_weapon.get_popup().connect("id_pressed", self, "change_weapon")
+	$multiplayer/server_settings/change_map.get_popup().connect("id_pressed", self, "change_map")
 	
 	if get_tree().network_peer != null:
 		Multiplayer.call_deferred( "_respawn" )
@@ -264,7 +265,6 @@ func restart():
 		hp = max_hp
 		vel = Vector3(0,0,0)
 		Multiplayer.pass_score()
-		$change_weapon.visible = true
 		
 		var message = Multiplayer.enemy_nickname + " Выиграл!"
 		Multiplayer.win(message)
@@ -319,6 +319,7 @@ func sync_stats():
 
 
 func _on_connect_pressed():
+	Multiplayer.update_map(Multiplayer.current_map_id)
 	Multiplayer.connect_ip = $multiplayer/ip.text
 	Multiplayer.nickname = $multiplayer/nickname.text
 	Multiplayer.color = $multiplayer/ColorPickerButton.color
@@ -331,6 +332,7 @@ func _on_connect_pressed():
 
 
 func _on_create_pressed():
+	Multiplayer.update_map(Multiplayer.current_map_id)
 	Multiplayer.nickname = $multiplayer/nickname.text
 	Multiplayer.color = $multiplayer/ColorPickerButton.color
 	Multiplayer.max_rounds = $multiplayer/server_settings/rounds_count.value
@@ -356,6 +358,9 @@ func change_weapon(id):
 	current_weapon.transform = $Camera/grab_position.transform
 	current_weapon.visible = true
 
+func change_map(id):
+	Multiplayer.current_map_id = id
+	print(Multiplayer.current_map_id)
 
 func _on_notification_timer_timeout():
 	notificate_fade = true

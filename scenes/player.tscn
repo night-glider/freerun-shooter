@@ -445,10 +445,25 @@ max_value = 20.0
 value = 5.0
 align = 1
 
-[node name="create" type="Button" parent="multiplayer/server_settings"]
-margin_top = 29.0
+[node name="Label2" type="Label" parent="multiplayer/server_settings"]
+margin_top = 32.0
 margin_right = 112.0
+margin_bottom = 47.0
+text = "Карта:"
+
+[node name="change_map" type="MenuButton" parent="multiplayer/server_settings"]
+margin_left = 116.0
+margin_top = 29.0
+margin_right = 190.0
 margin_bottom = 50.0
+text = "карта"
+flat = false
+items = [ "classic", null, 0, false, false, 0, 0, null, "", false, "neocity", null, 0, false, false, 1, 0, null, "", false, "concrete bamboo", null, 0, false, false, 2, 0, null, "", false, "hexbowl", null, 0, false, false, 3, 0, null, "", false, "float debris", null, 0, false, false, 4, 0, null, "", false, "dellusion", null, 0, false, false, 5, 0, null, "", false ]
+
+[node name="create" type="Button" parent="multiplayer/server_settings"]
+margin_top = 54.0
+margin_right = 112.0
+margin_bottom = 75.0
 text = "Создать сервер"
 __meta__ = {
 "_edit_use_anchors_": false

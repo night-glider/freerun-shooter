@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/float_debris.obj-e360dd2137221dc60cb8a595f1881aa4.mesh"
+
+[deps]
+
+files=[ "res://.import/float_debris.obj-e360dd2137221dc60cb8a595f1881aa4.mesh" ]
+
+source_file="res://maps/import/float_debris.obj"
+dest_files=[ "res://.import/float_debris.obj-e360dd2137221dc60cb8a595f1881aa4.mesh", "res://.import/float_debris.obj-e360dd2137221dc60cb8a595f1881aa4.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 5, 5, 5 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

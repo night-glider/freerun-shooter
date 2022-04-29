@@ -6,6 +6,7 @@ var enemy_nickname = "EMPTY NICKNAME"
 var max_rounds:int = 5
 var connect_ip:String = "127.0.0.1"
 var weapon = 0
+var current_map_id = 0
 
 var mouse_sensitivity = 0.1
 
@@ -32,7 +33,7 @@ func server_create():
 	get_tree().network_peer = null
 	peer = NetworkedMultiplayerENet.new()
 	peer.always_ordered = false
-	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
+	#peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_server(6969, 10)
 	get_tree().network_peer = peer
 	_respawn()
@@ -45,7 +46,7 @@ func server_create():
 func server_connect(ip:String):
 	peer = NetworkedMultiplayerENet.new()
 	peer.always_ordered = false
-	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
+	#peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE
 	peer.create_client(ip, 6969)
 	get_tree().network_peer = peer
 	_respawn()
@@ -85,9 +86,9 @@ remotesync func _respawn():
 	player.hp = player.max_hp
 	player.can_control = true
 	if get_tree().get_network_unique_id() == 1:
-		player.global_transform = spawn_host.global_transform
+		player.global_transform = get_node("../world/map/spawnpoints/host").global_transform
 	else:
-		player.global_transform = spawn_client.global_transform
+		player.global_transform = get_node("../world/map/spawnpoints/client").global_transform
 
 #функция победы.
 #message - сообщение о победе
@@ -103,6 +104,7 @@ func _player_connected(id):
 	#если я сервер, то отправляю данные о матче
 	if get_tree().get_network_unique_id() == 1:
 		rpc("update_server_info", max_rounds)
+		rpc("update_map", current_map_id)
 
 #обработка события дисконекта игрока
 func _player_disconnected(id):
@@ -117,7 +119,12 @@ remote func update_player_info(nick:String, col:Color):
 	enemy.change_color(col)
 	player.notificate( enemy_nickname + " Connected", 2)
 	ping()
-	pass
+
+#rpc функция, которая заменяет текущую карту. ВСЕГДА инстанцирует карту
+#map_id - id карты (можно увидеть в скрипте world)
+remote func update_map(map_id:int):
+	world.change_map(map_id)
+	_respawn()
 
 #rpc функция обновления данных о матче
 #round_count - максимальное кол-во раундов
