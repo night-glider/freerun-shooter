@@ -4,13 +4,13 @@
 [ext_resource path="res://maps/import/dellusion.obj" type="ArrayMesh" id=2]
 
 [sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.286275, 0.356863, 0.372549, 1 )
+albedo_color = Color( 0.572549, 0.682353, 0.72549, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.85098, 0.85098, 0.85098, 1 )
+albedo_color = Color( 0.254902, 0.239216, 0.713726, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
@@ -21,7 +21,7 @@ data = PoolVector3Array( 89.6, 61.44, 0, 102.4, 61.44, 0, 89.6, 61.44, 20.48, 89
 [node name="map" type="Spatial"]
 
 [node name="sun" type="DirectionalLight" parent="."]
-transform = Transform( -0.707107, 0.353553, -0.612373, 2.18557e-08, 0.866026, 0.499999, 0.707107, 0.353553, -0.612373, 0, 47, 0 )
+transform = Transform( -0.707107, 0.353553, -0.612373, -0.353553, 0.573224, 0.739199, 0.612372, 0.739199, -0.280331, 0, 47, 0 )
 light_energy = 0.75
 light_indirect_energy = 13.42
 shadow_enabled = true

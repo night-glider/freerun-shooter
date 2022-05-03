@@ -3,7 +3,7 @@ var peer:NetworkedMultiplayerENet
 var color := Color.green
 var nickname = "EMPTY NICK"
 var enemy_nickname = "EMPTY NICKNAME"
-var max_rounds:int = 5
+var max_rounds:int = 10
 var connect_ip:String = "127.0.0.1"
 var weapon = 0
 var current_map_id = 0
@@ -123,8 +123,7 @@ remote func update_player_info(nick:String, col:Color):
 #rpc функция, которая заменяет текущую карту. ВСЕГДА инстанцирует карту
 #map_id - id карты (можно увидеть в скрипте world)
 remote func update_map(map_id:int):
-	world.change_map(map_id)
-	_respawn()
+	load_map(map_id)
 
 #rpc функция обновления данных о матче
 #round_count - максимальное кол-во раундов
@@ -140,7 +139,11 @@ remote func _set_pos(trans:Transform):
 #rpc функция перезагрузки у ВСЕХ игроков.
 remotesync func restart_game():
 	get_tree().reload_current_scene()
-	call_deferred("_respawn")
+	if get_tree().get_network_unique_id() == 1:
+		current_map_id = randi()%5+1
+		#OS.alert(str(current_map_id))
+		call_deferred("load_map", current_map_id )
+		rpc("update_map", current_map_id)
 	print("Match restarted")
 
 #функция создания снаряда
@@ -171,3 +174,33 @@ remote func _ping_send():
 remote func _ping_receive():
 	var diff = OS.get_system_time_msecs() - last_time
 	print("Ping: ~" + str(diff)+"ms")
+
+
+
+const classic = preload("res://maps/classic.tscn")
+const neocity = preload("res://maps/neocity.tscn")
+const concrete_bamboo = preload("res://maps/concrete_bamboo.tscn")
+const hexbowl = preload("res://maps/hexbowl.tscn")
+const float_debris = preload("res://maps/float_debris.tscn")
+const dellusion = preload("res://maps/dellusion.tscn")
+
+func load_map(map_id):
+	var new_map = classic
+	match map_id:
+		0:
+			new_map = classic
+		1:
+			new_map = neocity
+		2:
+			new_map = concrete_bamboo
+		3:
+			new_map = hexbowl
+		4:
+			new_map = float_debris
+		5:
+			new_map = dellusion
+	get_node("../world/map").free()
+	var new_map_instance = new_map.instance()
+	get_node("../world").add_child(new_map_instance)
+	new_map_instance.name = "map"
+	_respawn()

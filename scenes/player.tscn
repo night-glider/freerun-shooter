@@ -440,10 +440,11 @@ text = "Кол-во раундов: "
 margin_left = 116.0
 margin_right = 190.0
 margin_bottom = 25.0
-min_value = 3.0
+min_value = 1.0
 max_value = 20.0
-value = 5.0
+value = 10.0
 align = 1
+editable = false
 
 [node name="Label2" type="Label" parent="multiplayer/server_settings"]
 margin_top = 32.0

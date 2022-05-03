@@ -27,7 +27,7 @@ var cards:Dictionary = {
 	},
 	"card6":{
 		"name":"big bullets",
-		"description":"[color=green]+50% к размеру пуль"
+		"description":"[color=green]+25% к размеру пуль\n[color=red]+50% отдача"
 	},
 	"card7":{
 		"name":"fast pewlets",
@@ -96,7 +96,9 @@ func card5():
 	get_parent().max_spd *= 1.35
 
 func card6():
-	get_parent().current_weapon.bullet_scale_modifier *= 1.5
+	get_parent().current_weapon.bullet_scale_modifier *= 1.25
+	get_parent().current_weapon.recoil_factor_x *= 1.5
+	get_parent().current_weapon.recoil_factor_y *= 1.5
 
 func card7():
 	get_parent().current_weapon.bullet_spd *= 1.5

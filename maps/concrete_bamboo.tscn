@@ -10,7 +10,7 @@ uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.741176, 0.72549, 0.45098, 1 )
+albedo_color = Color( 0.286275, 0.145098, 0.0745098, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true

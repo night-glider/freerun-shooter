@@ -4,19 +4,19 @@
 [ext_resource path="res://maps/import/hexbowl.obj" type="ArrayMesh" id=2]
 
 [sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0, 0.819608, 0.792157, 1 )
+albedo_color = Color( 1, 0.847059, 0.772549, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0, 0.619608, 0.819608, 1 )
+albedo_color = Color( 1, 0.619608, 0.027451, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0.819608, 0.537255, 0, 1 )
+albedo_color = Color( 0.184314, 0.188235, 0.847059, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true

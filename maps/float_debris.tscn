@@ -10,13 +10,13 @@ uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.466667, 0.396078, 0.47451, 1 )
+albedo_color = Color( 0.964706, 0.886275, 0.737255, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 1, 0.54902, 0, 1 )
+albedo_color = Color( 0.913725, 0.164706, 0.533333, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
@@ -27,7 +27,7 @@ data = PoolVector3Array( 25.6, 51.2, -83.2, 25.6, 51.2, -76.8, 22.4, 51.2, -83.2
 [node name="map" type="Spatial"]
 
 [node name="sun" type="DirectionalLight" parent="."]
-transform = Transform( -0.707107, 0.353553, -0.612373, 2.18557e-08, 0.866026, 0.499999, 0.707107, 0.353553, -0.612373, 0, 47, 0 )
+transform = Transform( -1, 1.89276e-08, 1.09278e-08, 1.54543e-08, 0.25882, 0.965926, 1.54543e-08, 0.965926, -0.25882, 0, 47, 0 )
 light_energy = 0.75
 light_indirect_energy = 13.42
 shadow_enabled = true
@@ -44,6 +44,7 @@ material/2 = SubResource( 4 )
 [node name="StaticBody" type="StaticBody" parent="map"]
 
 [node name="CollisionShape" type="CollisionShape" parent="map/StaticBody"]
+visible = false
 shape = SubResource( 1 )
 
 [node name="spawnpoints" type="Spatial" parent="."]

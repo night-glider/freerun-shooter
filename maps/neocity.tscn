@@ -4,19 +4,19 @@
 [ext_resource path="res://maps/import/neocity.obj" type="ArrayMesh" id=3]
 
 [sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.72549, 0.866667, 1, 1 )
+albedo_color = Color( 0.631373, 0.352941, 1, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 1, 0.952941, 0.72549, 1 )
+albedo_color = Color( 0.215686, 0, 0.454902, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
 
 [sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 1, 0.72549, 0.72549, 1 )
+albedo_color = Color( 0.129412, 0.156863, 0.317647, 1 )
 albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.2, 0.2, 0.2 )
 uv1_triplanar = true
@@ -27,7 +27,7 @@ data = PoolVector3Array( 25.6, 25.6, 0, 25.6, 25.6, -64, 38.4, 25.6, 0, 38.4, 25
 [node name="map" type="Spatial"]
 
 [node name="sun" type="DirectionalLight" parent="."]
-transform = Transform( -0.707107, 0.353553, -0.612373, 2.18557e-08, 0.866026, 0.499999, 0.707107, 0.353553, -0.612373, 0, 47, 0 )
+transform = Transform( -0.707107, 0.353553, -0.612373, -0.183013, 0.74501, 0.641456, 0.683013, 0.56565, -0.462097, 0, 47, 0 )
 light_energy = 0.75
 light_indirect_energy = 13.42
 shadow_enabled = true
@@ -44,6 +44,7 @@ material/2 = SubResource( 4 )
 [node name="StaticBody" type="StaticBody" parent="map"]
 
 [node name="CollisionShape" type="CollisionShape" parent="map/StaticBody"]
+visible = false
 shape = SubResource( 1 )
 
 [node name="spawnpoints" type="Spatial" parent="."]
