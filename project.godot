@@ -10,9 +10,9 @@ config_version=4
 
 [application]
 
-config/name="parkour"
+config/name="bean duel"
 run/main_scene="res://world.tscn"
-config/icon="res://textures/icon.png"
+config/icon="res://icon.png"
 
 [autoload]
 

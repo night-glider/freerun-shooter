@@ -156,8 +156,9 @@ func _physics_process(delta):
 		spd = clamp(test.length(), start_spd, 999)
 	
 	#поворот камеры мышкой
-	cam_base_rotation.x -= mouse_delta.y * Multiplayer.mouse_sensitivity
-	rotation_degrees.y -= mouse_delta.x * Multiplayer.mouse_sensitivity
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		cam_base_rotation.x -= mouse_delta.y * Multiplayer.mouse_sensitivity
+		rotation_degrees.y -= mouse_delta.x * Multiplayer.mouse_sensitivity
 	
 	#компенсация отдачи
 	cam_id.rotation_degrees = cam_base_rotation + recoil_offset
@@ -211,10 +212,10 @@ func _process(delta):
 #		current_weapon.transform = $Camera/grab_position.transform
 #		current_weapon.visible = true
 	
-	if Input.is_action_pressed("RMB"):
-		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
-	else:
-		current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
+	#if Input.is_action_pressed("RMB"):
+	#	current_weapon.transform = current_weapon.transform.interpolate_with($Camera/zoom_position.transform, 0.1)
+	#else:
+	current_weapon.transform = current_weapon.transform.interpolate_with($Camera/default_position.transform, 0.1)
 	
 	if Input.is_action_just_pressed("debug"):
 		$debug_info.visible = not $debug_info.visible
@@ -300,13 +301,13 @@ func hit_marker():
 	$crosshair/Control/hit_marker.modulate.a = 1.5
 
 func sync_stats():
-	$debug_info/stats.text = "\nstate " + String(state)
-	$debug_info/stats.text += "\nHP " + String(hp)
-	$debug_info/stats.text += "\nscore " + String(score)
-	$debug_info/stats.text += "\nammo " + String(current_weapon.ammo)
-	$debug_info/stats.text += "\ndouble jump " + String(can_doublejump)
-	$debug_info/stats.text += "\nvelocity vec " + String(vel.length())
-	$debug_info/stats.text += "\nspeed " + String(spd)
+#	$debug_info/stats.text = "\nstate " + String(state)
+#	$debug_info/stats.text += "\nHP " + String(hp)
+#	$debug_info/stats.text += "\nscore " + String(score)
+#	$debug_info/stats.text += "\nammo " + String(current_weapon.ammo)
+#	$debug_info/stats.text += "\ndouble jump " + String(can_doublejump)
+#	$debug_info/stats.text += "\nvelocity vec " + String(vel.length())
+#	$debug_info/stats.text += "\nspeed " + String(spd)
 	
 	$GUI/doublejump_progress.value = can_doublejump
 	$GUI/HP.value = lerp($GUI/HP.value, hp, 0.1)

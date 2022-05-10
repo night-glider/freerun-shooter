@@ -1,7 +1,7 @@
 extends Node
 var peer:NetworkedMultiplayerENet
 var color := Color.green
-var nickname = "EMPTY NICK"
+var nickname = "ПУСТОЙ НИК"
 var enemy_nickname = "EMPTY NICKNAME"
 var max_rounds:int = 10
 var connect_ip:String = "127.0.0.1"
