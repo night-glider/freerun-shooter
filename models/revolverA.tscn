@@ -2,9 +2,9 @@
 
 [ext_resource path="res://models/import/revolverA.fbx" type="PackedScene" id=1]
 [ext_resource path="res://materials/weapons/revolverA.tres" type="Material" id=2]
-[ext_resource path="res://models/import/revolverA_material.material" type="Material" id=3]
+[ext_resource path="res://models/revolverA.material" type="Material" id=3]
 
-[sub_resource type="ArrayMesh" id=1]
+[sub_resource type="ArrayMesh" id=4]
 resource_name = "revolverA_new_revolver001"
 surfaces/0 = {
 "aabb": AABB( -0.309917, -0.0335103, -0.128983, 0.700493, 0.067, 0.328915 ),
@@ -28,5 +28,5 @@ material/0 = ExtResource( 2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15272, 0.0252912, 0.111437 )
-mesh = SubResource( 1 )
+mesh = SubResource( 4 )
 material/0 = ExtResource( 3 )

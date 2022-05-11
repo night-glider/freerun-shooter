@@ -2,7 +2,7 @@
 
 [ext_resource path="res://models/import/revolverB.fbx" type="PackedScene" id=1]
 [ext_resource path="res://materials/weapons/revolverB.tres" type="Material" id=2]
-[ext_resource path="res://models/import/revolverB_material.material" type="Material" id=3]
+[ext_resource path="res://models/revolverB.material" type="Material" id=3]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "revoliver B_revolverB"
@@ -13,7 +13,6 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 672,
-"material": ExtResource( 3 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 300
@@ -30,4 +29,4 @@ material/0 = ExtResource( 2 )
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.287122, 0.0532516, 0.0215055 )
 mesh = SubResource( 1 )
-material/0 = null
+material/0 = ExtResource( 3 )
